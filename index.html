@@ -8,7 +8,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap");
-
 :root {
     --bg: #0e1710;
     --bg-2: #121e15;
@@ -27,14 +26,12 @@
     --display: "Fraunces", Georgia, "Times New Roman", serif;
     --body: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
 }
-
 body {
     font-family: var(--body);
     background:
@@ -45,14 +42,11 @@ body {
     padding-bottom: 48px;
     line-height: 1.45;
 }
-
 a { color: inherit; text-decoration: none; }
-
 :focus-visible {
     outline: 2px solid var(--leaf);
     outline-offset: 2px;
 }
-
 /* ---------- HEADER ---------- */
 .site-header {
     background: rgba(14, 23, 16, 0.92);
@@ -67,7 +61,6 @@ a { color: inherit; text-decoration: none; }
     top: 0;
     z-index: 50;
 }
-
 .brand {
     display: flex;
     align-items: center;
@@ -77,7 +70,6 @@ a { color: inherit; text-decoration: none; }
     font-weight: 700;
     letter-spacing: 0.2px;
 }
-
 .brand-mark {
     width: 14px;
     height: 14px;
@@ -85,7 +77,6 @@ a { color: inherit; text-decoration: none; }
     border-radius: 0 100% 0 100%;
     transform: rotate(-8deg);
 }
-
 .nav {
     display: flex;
     gap: 4px;
@@ -94,7 +85,6 @@ a { color: inherit; text-decoration: none; }
     padding: 4px;
     border-radius: 999px;
 }
-
 .nav a {
     padding: 7px 16px;
     border-radius: 999px;
@@ -103,14 +93,11 @@ a { color: inherit; text-decoration: none; }
     color: var(--muted);
     transition: color 0.15s, background 0.15s;
 }
-
 .nav a:hover { color: var(--text); }
-
 .nav a.active {
     background: var(--leaf);
     color: var(--leaf-ink);
 }
-
 .admin-pill {
     font-size: 12px;
     font-weight: 600;
@@ -119,14 +106,12 @@ a { color: inherit; text-decoration: none; }
     padding: 5px 11px;
     border-radius: 999px;
 }
-
 /* ---------- LAYOUT ---------- */
 .container {
     max-width: 1300px;
     margin: 0 auto;
     padding: 22px 16px;
 }
-
 .page-head {
     display: flex;
     justify-content: space-between;
@@ -135,41 +120,35 @@ a { color: inherit; text-decoration: none; }
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
-
 .page-head h1 {
     font-family: var(--display);
     font-size: 34px;
     line-height: 1.1;
     font-weight: 700;
 }
-
 .page-head p {
     color: var(--muted);
     font-size: 14px;
     margin-top: 6px;
 }
-
 .grid {
     display: grid;
     grid-template-columns: 1.55fr 0.9fr;
     gap: 16px;
     align-items: start;
 }
-
 .panel {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 18px;
     padding: 20px;
 }
-
 .panel h2 {
     font-family: var(--display);
     font-size: 21px;
     font-weight: 700;
     margin-bottom: 16px;
 }
-
 /* ---------- STATS ---------- */
 .stats {
     display: grid;
@@ -177,20 +156,17 @@ a { color: inherit; text-decoration: none; }
     gap: 12px;
     margin-bottom: 18px;
 }
-
 .card {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 16px 18px;
 }
-
 .card-title {
     color: var(--muted);
     font-size: 13px;
     margin-bottom: 4px;
 }
-
 .card-value {
     font-family: var(--display);
     font-size: 28px;
@@ -198,9 +174,7 @@ a { color: inherit; text-decoration: none; }
     line-height: 1.15;
     font-variant-numeric: lining-nums;
 }
-
 .card.money .card-value { color: var(--leaf); }
-
 /* ---------- CALENDAR ---------- */
 .calendar-header {
     display: flex;
@@ -209,15 +183,12 @@ a { color: inherit; text-decoration: none; }
     gap: 10px;
     margin-bottom: 14px;
 }
-
 .month-title {
     font-family: var(--display);
     font-size: 24px;
     font-weight: 700;
 }
-
 .calendar-buttons { display: flex; gap: 6px; }
-
 .calendar-buttons button {
     background: var(--surface-2);
     border: 1px solid var(--line);
@@ -230,16 +201,13 @@ a { color: inherit; text-decoration: none; }
     font-weight: 600;
     min-width: 40px;
 }
-
 .calendar-buttons button:hover { border-color: var(--leaf); }
-
 .weekdays,
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 6px;
 }
-
 .weekdays div {
     text-align: center;
     color: var(--muted);
@@ -247,7 +215,6 @@ a { color: inherit; text-decoration: none; }
     padding: 6px 0;
     font-weight: 600;
 }
-
 .day {
     --c: var(--avail);
     min-height: 78px;
@@ -262,25 +229,20 @@ a { color: inherit; text-decoration: none; }
     min-width: 0;
     transition: border-color 0.15s;
 }
-
 .day:hover { border-color: var(--c); }
 .day.empty { visibility: hidden; pointer-events: none; }
-
 .day-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .day-number { font-size: 13px; font-weight: 600; }
-
 .dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: var(--c);
 }
-
 .day-label {
     font-size: 10.5px;
     line-height: 1.2;
@@ -291,36 +253,29 @@ a { color: inherit; text-decoration: none; }
     -webkit-box-orient: vertical;
     word-break: break-word;
 }
-
 .day.reserved {
     --c: var(--reserved);
     background: rgba(232, 194, 90, 0.1);
     border-color: rgba(232, 194, 90, 0.4);
 }
-
 .day.reserved .day-label { color: var(--reserved); }
-
 .day.booked {
     --c: var(--booked);
     background: rgba(242, 139, 143, 0.13);
     border-color: rgba(242, 139, 143, 0.5);
 }
-
 .day.booked .day-label {
     color: var(--text);
     font-weight: 700;
     font-size: 11.5px;
 }
-
 .day.blocked {
     --c: var(--blocked);
     border-color: #3a423b;
     background: repeating-linear-gradient(135deg, #1a221b, #1a221b 6px, #161d17 6px, #161d17 12px);
 }
-
 .day.today { outline: 2px solid var(--leaf); outline-offset: 1px; }
 .day.today .day-number { color: var(--leaf); }
-
 .legend {
     display: flex;
     flex-wrap: wrap;
@@ -329,14 +284,11 @@ a { color: inherit; text-decoration: none; }
     color: var(--muted);
     font-size: 12.5px;
 }
-
 .legend-item { display: flex; align-items: center; gap: 6px; }
 .legend-item i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-
 /* ---------- FORM ---------- */
 .form-group { margin-bottom: 13px; }
 .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
 label {
     display: block;
     font-size: 13px;
@@ -344,7 +296,6 @@ label {
     margin-bottom: 5px;
     font-weight: 500;
 }
-
 input, select, textarea {
     width: 100%;
     background: var(--bg);
@@ -357,12 +308,9 @@ input, select, textarea {
     outline: none;
     color-scheme: dark;
 }
-
 input:focus, select:focus, textarea:focus { border-color: var(--leaf); }
 textarea { resize: vertical; min-height: 70px; }
-
 .input-affix { position: relative; }
-
 .input-affix > span {
     position: absolute;
     left: 12px;
@@ -372,10 +320,8 @@ textarea { resize: vertical; min-height: 70px; }
     font-size: 15px;
     pointer-events: none;
 }
-
 .input-affix > input.pad-rupee { padding-left: 28px; }
 .input-affix > input.pad-phone { padding-left: 46px; }
-
 .balance-line {
     display: flex;
     justify-content: space-between;
@@ -388,10 +334,8 @@ textarea { resize: vertical; min-height: 70px; }
     margin-bottom: 13px;
     color: var(--muted);
 }
-
 .balance-line strong { font-size: 16px; color: var(--leaf); }
 .balance-line.bad strong { color: var(--booked); }
-
 /* ---------- BUTTONS ---------- */
 .btn {
     width: 100%;
@@ -405,18 +349,14 @@ textarea { resize: vertical; min-height: 70px; }
     margin-top: 6px;
     transition: filter 0.15s, opacity 0.15s;
 }
-
 .btn:hover { filter: brightness(1.08); }
 .btn:disabled { opacity: 0.55; cursor: wait; }
-
 .btn-primary { background: var(--leaf); color: var(--leaf-ink); }
 .btn-danger { background: #4d2226; color: #ff9ea4; }
 .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--line); }
 .btn-edit { background: #1d3552; color: #8ec3ff; }
-
 .btn-row { display: flex; gap: 10px; }
 .btn-row .btn { margin-top: 14px; }
-
 .btn-link {
     display: inline-block;
     width: auto;
@@ -424,7 +364,6 @@ textarea { resize: vertical; min-height: 70px; }
     margin-top: 0;
     text-align: center;
 }
-
 /* ---------- MODAL ---------- */
 .modal {
     display: none;
@@ -436,9 +375,7 @@ textarea { resize: vertical; min-height: 70px; }
     align-items: center;
     padding: 16px;
 }
-
 .modal.open { display: flex; }
-
 .modal-content {
     width: 100%;
     max-width: 420px;
@@ -449,16 +386,13 @@ textarea { resize: vertical; min-height: 70px; }
     max-height: 85vh;
     overflow-y: auto;
 }
-
 .modal-content.small { max-width: 340px; }
-
 .modal-content h3 {
     font-family: var(--display);
     font-size: 22px;
     margin-bottom: 12px;
     padding-right: 30px;
 }
-
 .close {
     float: right;
     cursor: pointer;
@@ -469,11 +403,8 @@ textarea { resize: vertical; min-height: 70px; }
     background: none;
     border: none;
 }
-
 .muted { color: var(--muted); }
-
 .detail-list { display: grid; gap: 8px; margin-bottom: 4px; }
-
 .detail-list div {
     display: flex;
     justify-content: space-between;
@@ -482,10 +413,8 @@ textarea { resize: vertical; min-height: 70px; }
     border-bottom: 1px solid var(--line);
     padding-bottom: 8px;
 }
-
 .detail-list span:first-child { color: var(--muted); }
 .detail-list span:last-child { text-align: right; word-break: break-word; }
-
 /* ---------- STATUS PILLS ---------- */
 .pill {
     display: inline-block;
@@ -494,11 +423,9 @@ textarea { resize: vertical; min-height: 70px; }
     font-size: 12px;
     font-weight: 600;
 }
-
 .pill-booked { background: rgba(242, 139, 143, 0.15); color: var(--booked); }
 .pill-reserved { background: rgba(232, 194, 90, 0.15); color: var(--reserved); }
 .pill-cancelled { background: rgba(139, 147, 139, 0.18); color: var(--muted); }
-
 /* ---------- TOAST ---------- */
 #toasts {
     position: fixed;
@@ -510,7 +437,6 @@ textarea { resize: vertical; min-height: 70px; }
     z-index: 200;
     width: min(92vw, 380px);
 }
-
 .toast {
     background: var(--surface-2);
     border: 1px solid var(--line);
@@ -521,15 +447,12 @@ textarea { resize: vertical; min-height: 70px; }
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     transition: opacity 0.25s;
 }
-
 .toast.error { border-left-color: var(--booked); }
 .toast.out { opacity: 0; }
-
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px) {
     .grid { grid-template-columns: 1fr; }
 }
-
 @media (max-width: 600px) {
     .site-header { padding: 10px 14px; }
     .brand { font-size: 19px; }
@@ -550,15 +473,12 @@ textarea { resize: vertical; min-height: 70px; }
     .day.booked .day-label { font-size: 9.5px; }
     .legend { gap: 12px; font-size: 12px; }
 }
-
 @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
 }
-
 </style>
 </head>
 <body>
-
 <header class="site-header">
     <a class="brand" href="index.html"><span class="brand-mark"></span>Parth Farm</a>
     <nav class="nav">
@@ -567,9 +487,7 @@ textarea { resize: vertical; min-height: 70px; }
     </nav>
     <span class="admin-pill">Admin</span>
 </header>
-
 <main class="container">
-
     <div class="page-head">
         <div>
             <h1>Booking calendar</h1>
@@ -577,7 +495,6 @@ textarea { resize: vertical; min-height: 70px; }
         </div>
         <a class="btn btn-secondary btn-link" href="bookings.html">Open booking database</a>
     </div>
-
     <!-- STATISTICS -->
     <section class="stats">
         <div class="card">
@@ -600,10 +517,12 @@ textarea { resize: vertical; min-height: 70px; }
             <div class="card-title">Balance pending</div>
             <div class="card-value" id="pendingRevenue">₹0</div>
         </div>
+        <div class="card money">
+            <div class="card-title">Revenue</div>
+            <div class="card-value" id="totalRevenue">₹0</div>
+        </div>
     </section>
-
     <div class="grid">
-
         <!-- CALENDAR -->
         <section class="panel">
             <div class="calendar-header">
@@ -626,18 +545,15 @@ textarea { resize: vertical; min-height: 70px; }
                 <div class="legend-item"><i style="background:var(--blocked)"></i> Blocked</div>
             </div>
         </section>
-
         <!-- BOOKING FORM -->
         <section class="panel">
             <h2 id="formTitle">Add booking</h2>
             <form id="bookingForm" novalidate>
                 <input type="hidden" id="editBookingId">
-
                 <div class="form-group">
                     <label for="customerName">Customer name</label>
                     <input type="text" id="customerName" required autocomplete="off">
                 </div>
-
                 <div class="form-group">
                     <label for="mobile">Mobile number (10 digits)</label>
                     <div class="input-affix">
@@ -646,7 +562,6 @@ textarea { resize: vertical; min-height: 70px; }
                                maxlength="10" pattern="[0-9]{10}" placeholder="9876543210" autocomplete="off" required>
                     </div>
                 </div>
-
                 <div class="row-2">
                     <div class="form-group">
                         <label for="bookingDate">Booking date</label>
@@ -660,7 +575,6 @@ textarea { resize: vertical; min-height: 70px; }
                         </select>
                     </div>
                 </div>
-
                 <div class="row-2">
                     <div class="form-group">
                         <label for="totalAmount">Total amount</label>
@@ -677,12 +591,10 @@ textarea { resize: vertical; min-height: 70px; }
                         </div>
                     </div>
                 </div>
-
                 <div class="balance-line" id="balanceLine">
                     <span>Balance to collect</span>
                     <strong id="balanceValue">₹0</strong>
                 </div>
-
                 <div class="row-2">
                     <div class="form-group">
                         <label for="paymentMode">Payment mode</label>
@@ -701,12 +613,10 @@ textarea { resize: vertical; min-height: 70px; }
                         <input type="date" id="paymentDate">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="notes">Notes</label>
                     <textarea id="notes" rows="3"></textarea>
                 </div>
-
                 <button class="btn btn-primary" type="submit" id="submitBtn">Save booking</button>
                 <button class="btn btn-secondary" type="button" id="cancelEditBtn" style="display:none;">Cancel edit</button>
             </form>
@@ -714,7 +624,6 @@ textarea { resize: vertical; min-height: 70px; }
         </section>
     </div>
 </main>
-
 <!-- DATE MODAL -->
 <div class="modal" id="dateModal">
     <div class="modal-content">
@@ -723,7 +632,6 @@ textarea { resize: vertical; min-height: 70px; }
         <div id="modalDetails"></div>
     </div>
 </div>
-
 <script>
 /* =====================================================
    SUPABASE CONFIG  (shared by index.html + bookings.html)
@@ -732,12 +640,10 @@ const SUPABASE_URL = "https://bolwtbueazlfzeeyggir.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbHd0YnVlYXpsZnplZXlnZ2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3MTgxNTAsImV4cCI6MjEwNTI5NDE1MH0.IYGWTYCCIr_S5Gv66AxuRn5RLk_XzLyCTm-FwUM8bXs";
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 /* =====================================================
    HELPERS
 ===================================================== */
 const $ = (id) => document.getElementById(id);
-
 function escapeHTML(value) {
     return String(value == null ? "" : value)
         .replace(/&/g, "&amp;")
@@ -746,12 +652,10 @@ function escapeHTML(value) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-
 /* Rupee sign + Indian comma grouping: 1234567 -> ₹12,34,567 */
 function fmtINR(n) {
     return "₹" + Number(n || 0).toLocaleString("en-IN");
 }
-
 /* "2027-03-05" -> "05 Mar 2027" */
 function fmtDate(str) {
     if (!str) return "-";
@@ -759,7 +663,6 @@ function fmtDate(str) {
     if (isNaN(d)) return str;
     return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 }
-
 /* Date -> "YYYY-MM-DD" (local time, no timezone shift) */
 function formatDate(date) {
     const y = date.getFullYear();
@@ -767,12 +670,8 @@ function formatDate(date) {
     const d = String(date.getDate()).padStart(2, "0");
     return `${y}-${m}-${d}`;
 }
-
 /* =====================================================
    BOOKING NUMBERS  (1, 2, 3, 4 ...)
-   - If your table has a `booking_no` column, that is used (permanent numbers).
-   - Otherwise numbers follow the order bookings were created
-     (created_at), or by date if there is no created_at.
 ===================================================== */
 function assignNumbers(rows) {
     const sorted = rows.slice().sort((a, b) => {
@@ -784,21 +683,18 @@ function assignNumbers(rows) {
     });
     return sorted;
 }
-
 async function fetchBookings() {
     const { data, error } = await supabaseClient.from("bookings").select("*");
     if (error) throw error;
     return assignNumbers(data || []);
 }
-
 async function fetchBlockedDates() {
     const { data, error } = await supabaseClient.from("blocked_dates").select("date");
     if (error) throw error;
     return (data || []).map((b) => b.date);
 }
-
 /* =====================================================
-   TOAST + CONFIRM DIALOG  (replaces alert / confirm)
+   TOAST + CONFIRM DIALOG
 ===================================================== */
 function toast(message, type = "ok") {
     let box = $("toasts");
@@ -816,7 +712,6 @@ function toast(message, type = "ok") {
         setTimeout(() => t.remove(), 260);
     }, 3200);
 }
-
 function confirmDialog(message, okLabel = "Confirm", danger = false) {
     return new Promise((resolve) => {
         const wrap = document.createElement("div");
@@ -840,21 +735,16 @@ function confirmDialog(message, okLabel = "Confirm", danger = false) {
         wrap.querySelector('[data-r="0"]').focus();
     });
 }
-
 /* =====================================================
-   MONEY INPUTS  (live ₹ + comma formatting)
-   Usage: <input class="money">  ->  call setupMoneyInputs()
-   Read value with parseMoney(el.value), set with setMoney(el, n)
+   MONEY INPUTS
 ===================================================== */
 function parseMoney(str) {
     return Number(String(str || "").replace(/[^\d]/g, "")) || 0;
 }
-
 function setMoney(el, n) {
     const num = Number(n) || 0;
     el.value = num ? num.toLocaleString("en-IN") : "";
 }
-
 function formatMoneyInput(el) {
     const raw = el.value;
     const caret = el.selectionStart == null ? raw.length : el.selectionStart;
@@ -862,8 +752,6 @@ function formatMoneyInput(el) {
     const digits = raw.replace(/\D/g, "").replace(/^0+(?=\d)/, "").slice(0, 9);
     const formatted = digits ? Number(digits).toLocaleString("en-IN") : "";
     el.value = formatted;
-
-    // keep the cursor where the user was typing
     let pos = 0, count = 0;
     while (pos < formatted.length && count < digitsBefore) {
         if (/\d/.test(formatted[pos])) count++;
@@ -871,7 +759,6 @@ function formatMoneyInput(el) {
     }
     try { el.setSelectionRange(pos, pos); } catch (e) { /* ignore */ }
 }
-
 function setupMoneyInputs(onChange) {
     document.querySelectorAll("input.money").forEach((el) => {
         el.addEventListener("input", () => {
@@ -880,21 +767,18 @@ function setupMoneyInputs(onChange) {
         });
     });
 }
-
 /* =====================================================
-   MOBILE NUMBER: digits only, max 10
+   MOBILE NUMBER
 ===================================================== */
 function setupPhoneInput(el) {
     el.addEventListener("input", () => {
         el.value = el.value.replace(/\D/g, "").slice(0, 10);
     });
 }
-
 function cleanPhone(value) {
     const digits = String(value || "").replace(/\D/g, "");
     return digits.length > 10 ? digits.slice(-10) : digits;
 }
-
 </script>
 <script>
 /* =====================================================
@@ -905,7 +789,6 @@ let blockedDates = [];
 let currentDate = new Date();
 let isEditing = false;
 let editHandled = false;
-
 /* =====================================================
    LOAD DATA
 ===================================================== */
@@ -914,8 +797,6 @@ async function loadData() {
         bookings = await fetchBookings();
         blockedDates = await fetchBlockedDates();
         updateEverything();
-
-        // opened from the database page via  index.html?edit=<id>
         const editId = new URLSearchParams(location.search).get("edit");
         if (editId && !editHandled) {
             editHandled = true;
@@ -926,47 +807,36 @@ async function loadData() {
         toast("Could not load data: " + err.message, "error");
     }
 }
-
 /* =====================================================
    CALENDAR
 ===================================================== */
 function renderCalendar() {
     const calendar = $("calendar");
     calendar.innerHTML = "";
-
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-
     $("monthTitle").textContent = new Date(year, month).toLocaleString("en-IN", {
         month: "long",
         year: "numeric"
     });
-
-    // lookups (faster than searching the array for every cell)
     const byDate = new Map();
     bookings.forEach((b) => { if (b.status !== "Cancelled") byDate.set(b.date, b); });
     const blockedSet = new Set(blockedDates);
     const todayStr = formatDate(new Date());
-
     for (let i = 0; i < firstDay; i++) {
         const empty = document.createElement("div");
         empty.className = "day empty";
         calendar.appendChild(empty);
     }
-
     for (let day = 1; day <= daysInMonth; day++) {
         const dateString = formatDate(new Date(year, month, day));
         const booking = byDate.get(dateString);
-
         let status = "Available";
         if (blockedSet.has(dateString)) status = "Blocked";
         else if (booking) status = booking.status;
-
-        // Booked dates show the customer's name; everything else shows its status
         const label = status === "Booked" ? (booking.customer || "Booked") : status;
-
         const cell = document.createElement("div");
         cell.className = "day " + status.toLowerCase();
         if (dateString === todayStr) cell.classList.add("today");
@@ -982,8 +852,6 @@ function renderCalendar() {
         calendar.appendChild(cell);
     }
 }
-
-/* Always jump to the 1st so month-end dates never skip a month */
 function previousMonth() {
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
     renderCalendar();
@@ -996,7 +864,6 @@ function goToday() {
     currentDate = new Date();
     renderCalendar();
 }
-
 /* =====================================================
    FORM HELPERS
 ===================================================== */
@@ -1007,7 +874,6 @@ function updateBalance() {
     $("balanceValue").textContent = fmtINR(Math.max(total - paid, 0));
     line.classList.toggle("bad", paid > total);
 }
-
 function resetForm() {
     isEditing = false;
     $("bookingForm").reset();
@@ -1017,13 +883,11 @@ function resetForm() {
     $("cancelEditBtn").style.display = "none";
     updateBalance();
 }
-
 /* =====================================================
    ADD / UPDATE BOOKING
 ===================================================== */
 $("bookingForm").addEventListener("submit", async function (e) {
     e.preventDefault();
-
     const name = $("customerName").value.trim();
     const mobile = cleanPhone($("mobile").value);
     const date = $("bookingDate").value;
@@ -1034,22 +898,17 @@ $("bookingForm").addEventListener("submit", async function (e) {
     const paymentDate = $("paymentDate").value || null;
     const notes = $("notes").value.trim();
     const editId = $("editBookingId").value;
-
     if (!name) { toast("Enter the customer name.", "error"); $("customerName").focus(); return; }
     if (mobile.length !== 10) { toast("Mobile number must be exactly 10 digits.", "error"); $("mobile").focus(); return; }
     if (!date) { toast("Select a booking date.", "error"); return; }
     if (bookingAmount > total) { toast("Advance cannot be more than the total amount.", "error"); return; }
-
-    // Conflict check
     const other = bookings.find(
         (b) => b.date === date && b.status !== "Cancelled" && String(b.id) !== String(editId)
     );
     if (other) { toast("This date is already " + other.status.toLowerCase() + ".", "error"); return; }
-
     const original = bookings.find((b) => String(b.id) === String(editId));
     const dateChanged = !isEditing || !original || original.date !== date;
     if (dateChanged && blockedDates.includes(date)) { toast("This date is blocked.", "error"); return; }
-
     const payload = {
         customer: name,
         mobile: mobile,
@@ -1063,7 +922,6 @@ $("bookingForm").addEventListener("submit", async function (e) {
         payment_date: paymentDate,
         notes: notes || null
     };
-
     const btn = $("submitBtn");
     btn.disabled = true;
     try {
@@ -1086,14 +944,12 @@ $("bookingForm").addEventListener("submit", async function (e) {
         btn.disabled = false;
     }
 });
-
 /* =====================================================
    EDIT BOOKING
 ===================================================== */
 function editBooking(id) {
     const booking = bookings.find((b) => String(b.id) === String(id));
     if (!booking) return;
-
     isEditing = true;
     $("editBookingId").value = booking.id;
     $("customerName").value = booking.customer || "";
@@ -1106,13 +962,11 @@ function editBooking(id) {
     $("paymentDate").value = booking.payment_date || "";
     $("notes").value = booking.notes || "";
     updateBalance();
-
     $("formTitle").textContent = "Edit booking #" + booking.seq;
     $("submitBtn").textContent = "Update booking";
     $("cancelEditBtn").style.display = "block";
     $("bookingForm").scrollIntoView({ behavior: "smooth", block: "start" });
 }
-
 /* =====================================================
    BLOCK / UNBLOCK DATE
 ===================================================== */
@@ -1123,7 +977,6 @@ async function blockDate() {
         toast("This date already has a booking.", "error"); return;
     }
     if (blockedDates.includes(date)) { toast("Date is already blocked.", "error"); return; }
-
     try {
         const { error } = await supabaseClient.from("blocked_dates").insert([{ date }]);
         if (error) throw error;
@@ -1134,7 +987,6 @@ async function blockDate() {
         toast("Could not block date: " + err.message, "error");
     }
 }
-
 async function unblockDate(date) {
     try {
         const { error } = await supabaseClient.from("blocked_dates").delete().eq("date", date);
@@ -1147,16 +999,13 @@ async function unblockDate(date) {
         toast("Could not unblock date: " + err.message, "error");
     }
 }
-
 /* =====================================================
    DATE DETAILS MODAL
 ===================================================== */
 function showDateDetails(date) {
     const details = $("modalDetails");
     $("modalDate").textContent = fmtDate(date);
-
     const booking = bookings.find((b) => b.date === date && b.status !== "Cancelled");
-
     if (blockedDates.includes(date)) {
         details.innerHTML = `
             <p class="muted" style="margin-bottom:6px;">This date is blocked.</p>
@@ -1181,11 +1030,9 @@ function showDateDetails(date) {
             <p style="color:var(--avail);margin-bottom:6px;">This date is available.</p>
             <button class="btn btn-primary" data-act="add">Add booking</button>`;
     }
-
     details.dataset.date = date;
     $("dateModal").classList.add("open");
 }
-
 $("modalDetails").addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-act]");
     if (!btn) return;
@@ -1198,31 +1045,46 @@ $("modalDetails").addEventListener("click", (e) => {
         $("customerName").focus();
     }
 });
-
 function closeModal() {
     $("dateModal").classList.remove("open");
 }
-
 /* =====================================================
-   STATS
+   STATS  ← THIS IS THE UPDATED PART
 ===================================================== */
 function updateStats() {
+    const todayStr = formatDate(new Date());
     const active = bookings.filter((b) => b.status !== "Cancelled");
-    const advance = active.reduce((s, b) => s + Number(b.booking_amount || 0), 0);
+    const cancelled = bookings.filter((b) => b.status === "Cancelled");
+
+    // Upcoming = active bookings whose date is today or later
+    const upcoming = active.filter((b) => b.date >= todayStr);
+    // Past completed = active bookings whose date has already passed
+    const pastActive = active.filter((b) => b.date < todayStr);
+
+    // Advance received → only for upcoming bookings
+    const advance = upcoming.reduce((s, b) => s + Number(b.booking_amount || 0), 0);
+
+    // Balance pending → for all active Booked + Reserved
     const pending = active.reduce((s, b) => s + Number(b.balance || 0), 0);
+
+    // Revenue:
+    //   1. Advances kept from cancelled bookings
+    //   2. Full total_amount of past completed bookings
+    const revenueFromCancelled = cancelled.reduce((s, b) => s + Number(b.booking_amount || 0), 0);
+    const revenueFromPast = pastActive.reduce((s, b) => s + Number(b.total_amount || 0), 0);
+    const revenue = revenueFromCancelled + revenueFromPast;
 
     $("totalBookings").textContent = active.length;
     $("bookedDates").textContent = active.filter((b) => b.status === "Booked").length;
     $("reservedDates").textContent = active.filter((b) => b.status === "Reserved").length;
     $("totalBookingAmount").textContent = fmtINR(advance);
     $("pendingRevenue").textContent = fmtINR(pending);
+    $("totalRevenue").textContent = fmtINR(revenue);
 }
-
 function updateEverything() {
     renderCalendar();
     updateStats();
 }
-
 /* =====================================================
    INIT
 ===================================================== */
@@ -1234,15 +1096,12 @@ $("cancelEditBtn").onclick = () => { resetForm(); history.replaceState(null, "",
 $("closeModalBtn").onclick = closeModal;
 $("dateModal").addEventListener("click", (e) => { if (e.target === $("dateModal")) closeModal(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-
 setupPhoneInput($("mobile"));
 setupMoneyInputs(updateBalance);
 updateBalance();
-
 $("todayText").textContent = new Date().toLocaleDateString("en-IN", {
     weekday: "long", day: "numeric", month: "long", year: "numeric"
 });
-
 loadData();
 </script>
 </body>
