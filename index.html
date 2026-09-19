@@ -591,6 +591,19 @@ textarea { resize: vertical; min-height: 70px; }
                         </div>
                     </div>
                 </div>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label for="balanceAmount">Balance amount paid</label>
+                        <div class="input-affix">
+                            <span>₹</span>
+                            <input type="text" id="balanceAmount" class="money pad-rupee" inputmode="numeric" placeholder="0" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="balancePaymentDate">Balance payment date</label>
+                        <input type="date" id="balancePaymentDate">
+                    </div>
+                </div>
                 <div class="balance-line" id="balanceLine">
                     <span>Balance to collect</span>
                     <strong id="balanceValue">₹0</strong>
@@ -869,10 +882,12 @@ function goToday() {
 ===================================================== */
 function updateBalance() {
     const total = parseMoney($("totalAmount").value);
-    const paid = parseMoney($("bookingAmount").value);
+    const advance = parseMoney($("bookingAmount").value);
+    const balancePaid = parseMoney($("balanceAmount").value);
+    const paidTotal = advance + balancePaid;
     const line = $("balanceLine");
-    $("balanceValue").textContent = fmtINR(Math.max(total - paid, 0));
-    line.classList.toggle("bad", paid > total);
+    $("balanceValue").textContent = fmtINR(Math.max(total - paidTotal, 0));
+    line.classList.toggle("bad", paidTotal > total);
 }
 function resetForm() {
     isEditing = false;
@@ -894,6 +909,8 @@ $("bookingForm").addEventListener("submit", async function (e) {
     const status = $("bookingStatus").value;
     const total = parseMoney($("totalAmount").value);
     const bookingAmount = parseMoney($("bookingAmount").value);
+    const balanceAmount = parseMoney($("balanceAmount").value);
+    const balancePaymentDate = $("balancePaymentDate").value || null;
     const paymentMode = $("paymentMode").value;
     const paymentDate = $("paymentDate").value || null;
     const notes = $("notes").value.trim();
@@ -902,6 +919,8 @@ $("bookingForm").addEventListener("submit", async function (e) {
     if (mobile.length !== 10) { toast("Mobile number must be exactly 10 digits.", "error"); $("mobile").focus(); return; }
     if (!date) { toast("Select a booking date.", "error"); return; }
     if (bookingAmount > total) { toast("Advance cannot be more than the total amount.", "error"); return; }
+    if (bookingAmount + balanceAmount > total) { toast("Advance + balance amount cannot be more than the total amount.", "error"); return; }
+    if (balanceAmount > 0 && !balancePaymentDate) { toast("Select the date on which the balance amount was paid.", "error"); return; }
     const other = bookings.find(
         (b) => b.date === date && b.status !== "Cancelled" && String(b.id) !== String(editId)
     );
@@ -917,7 +936,9 @@ $("bookingForm").addEventListener("submit", async function (e) {
         status: status,
         total_amount: total,
         booking_amount: bookingAmount,
-        balance: total - bookingAmount,
+        balance_amount: balanceAmount,
+        balance_payment_date: balancePaymentDate,
+        balance: Math.max(total - bookingAmount - balanceAmount, 0),
         payment_mode: paymentMode || null,
         payment_date: paymentDate,
         notes: notes || null
@@ -958,6 +979,8 @@ function editBooking(id) {
     $("bookingStatus").value = booking.status === "Booked" ? "Booked" : "Reserved";
     setMoney($("totalAmount"), booking.total_amount);
     setMoney($("bookingAmount"), booking.booking_amount);
+    setMoney($("balanceAmount"), booking.balance_amount);
+    $("balancePaymentDate").value = booking.balance_payment_date || "";
     $("paymentMode").value = booking.payment_mode || "";
     $("paymentDate").value = booking.payment_date || "";
     $("notes").value = booking.notes || "";
@@ -1018,10 +1041,12 @@ function showDateDetails(date) {
                 <div><span>Mobile</span><span>${escapeHTML(booking.mobile)}</span></div>
                 <div><span>Status</span><span>${escapeHTML(booking.status)}</span></div>
                 <div><span>Total</span><span>${fmtINR(booking.total_amount)}</span></div>
-                <div><span>Paid</span><span>${fmtINR(booking.booking_amount)}</span></div>
-                <div><span>Balance</span><span>${fmtINR(booking.balance)}</span></div>
+                <div><span>Advance paid</span><span>${fmtINR(booking.booking_amount)}</span></div>
+                <div><span>Balance paid</span><span>${fmtINR(booking.balance_amount)}</span></div>
+                <div><span>Balance payment date</span><span>${fmtDate(booking.balance_payment_date)}</span></div>
+                <div><span>Balance pending</span><span>${fmtINR(booking.balance)}</span></div>
                 <div><span>Payment mode</span><span>${escapeHTML(booking.payment_mode || "-")}</span></div>
-                <div><span>Payment date</span><span>${fmtDate(booking.payment_date)}</span></div>
+                <div><span>Advance payment date</span><span>${fmtDate(booking.payment_date)}</span></div>
                 <div><span>Notes</span><span>${escapeHTML(booking.notes || "-")}</span></div>
             </div>
             <button class="btn btn-edit" data-act="edit" data-id="${escapeHTML(booking.id)}" style="margin-top:14px;">Edit this booking</button>`;
@@ -1064,8 +1089,17 @@ function updateStats() {
     // Advance received → only for upcoming bookings
     const advance = upcoming.reduce((s, b) => s + Number(b.booking_amount || 0), 0);
 
-    // Balance pending → for all active Booked + Reserved
-    const pending = active.reduce((s, b) => s + Number(b.balance || 0), 0);
+    // Balance pending → ALL active bookings, both previous and future.
+    // `balance` is recalculated from total - advance - balance paid when saved.
+    const pending = active.reduce((s, b) => {
+        const calculated = Math.max(
+            Number(b.total_amount || 0) -
+            Number(b.booking_amount || 0) -
+            Number(b.balance_amount || 0),
+            0
+        );
+        return s + calculated;
+    }, 0);
 
     // Revenue:
     //   1. Advances kept from cancelled bookings
