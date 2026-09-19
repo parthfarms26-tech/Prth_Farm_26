@@ -600,7 +600,7 @@ textarea { resize: vertical; min-height: 70px; }
 .summary .leaf { color: var(--leaf); }
 
 .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; border: 1px solid var(--line); }
-table { width: 100%; border-collapse: collapse; min-width: 1050px; }
+table { width: 100%; border-collapse: collapse; min-width: 1350px; }
 th, td {
     padding: 12px 12px;
     border-bottom: 1px solid var(--line);
@@ -723,10 +723,12 @@ tr.is-cancelled td { opacity: 0.55; }
                         <th>Date</th>
                         <th>Status</th>
                         <th class="right">Total</th>
-                        <th class="right">Paid</th>
-                        <th class="right">Balance</th>
+                        <th class="right">Advance paid</th>
+                        <th class="right">Balance paid</th>
+                        <th>Balance paid date</th>
+                        <th class="right">Balance pending</th>
                         <th>Payment mode</th>
-                        <th>Payment date</th>
+                        <th>Advance payment date</th>
                         <th>Notes</th>
                         <th>Actions</th>
                     </tr>
@@ -925,7 +927,7 @@ async function load() {
     } catch (err) {
         console.error(err);
         $("bookingTable").innerHTML =
-            `<tr><td colspan="12" class="empty-state">Could not load bookings: ${escapeHTML(err.message)}</td></tr>`;
+            `<tr><td colspan="14" class="empty-state">Could not load bookings: ${escapeHTML(err.message)}</td></tr>`;
         toast("Could not load bookings: " + err.message, "error");
     }
 }
@@ -972,7 +974,12 @@ function renderSummary(rows) {
     const live = rows.filter((b) => b.status !== "Cancelled");
     const total = live.reduce((s, b) => s + Number(b.total_amount || 0), 0);
     const paid = live.reduce((s, b) => s + Number(b.booking_amount || 0), 0);
-    const bal = live.reduce((s, b) => s + Number(b.balance || 0), 0);
+    const bal = live.reduce((s, b) => s + Math.max(
+        Number(b.total_amount || 0) -
+        Number(b.booking_amount || 0) -
+        Number(b.balance_amount || 0),
+        0
+    ), 0);
     $("summary").innerHTML = `
         <span>Showing<strong>${rows.length}</strong></span>
         <span>Total value<strong>${fmtINR(total)}</strong></span>
@@ -986,7 +993,7 @@ function renderTable() {
 
     const tbody = $("bookingTable");
     if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="12" class="empty-state">${
+        tbody.innerHTML = `<tr><td colspan="14" class="empty-state">${
             all.length ? "No bookings match your search." : "No bookings yet. Add the first one from the calendar."
         }</td></tr>`;
         return;
@@ -994,7 +1001,12 @@ function renderTable() {
 
     tbody.innerHTML = rows.map((b) => {
         const cancelled = b.status === "Cancelled";
-        const bal = Number(b.balance || 0);
+        const bal = Math.max(
+            Number(b.total_amount || 0) -
+            Number(b.booking_amount || 0) -
+            Number(b.balance_amount || 0),
+            0
+        );
         return `
         <tr class="${cancelled ? "is-cancelled" : ""}">
             <td class="num" data-label="No.">${b.seq}</td>
@@ -1003,10 +1015,12 @@ function renderTable() {
             <td data-label="Date">${fmtDate(b.date)}</td>
             <td data-label="Status"><span class="pill pill-${escapeHTML((b.status || "").toLowerCase())}">${escapeHTML(b.status)}</span></td>
             <td class="right" data-label="Total">${fmtINR(b.total_amount)}</td>
-            <td class="right" data-label="Paid">${fmtINR(b.booking_amount)}</td>
-            <td class="right" data-label="Balance"><span class="${bal > 0 ? "balance-due" : "balance-clear"}">${fmtINR(bal)}</span></td>
+            <td class="right" data-label="Advance paid">${fmtINR(b.booking_amount)}</td>
+            <td class="right" data-label="Balance paid">${fmtINR(b.balance_amount)}</td>
+            <td data-label="Balance paid date">${fmtDate(b.balance_payment_date)}</td>
+            <td class="right" data-label="Balance pending"><span class="${bal > 0 ? "balance-due" : "balance-clear"}">${fmtINR(bal)}</span></td>
             <td data-label="Payment mode">${escapeHTML(b.payment_mode || "-")}</td>
-            <td data-label="Payment date">${fmtDate(b.payment_date)}</td>
+            <td data-label="Advance payment date">${fmtDate(b.payment_date)}</td>
             <td class="notes" data-label="Notes">${escapeHTML(b.notes || "-")}</td>
             <td class="actions">
                 ${!cancelled ? `<a class="action-btn edit-btn" href="index.html?edit=${encodeURIComponent(b.id)}">Edit</a>` : ""}
@@ -1074,12 +1088,18 @@ $("exportBtn").addEventListener("click", () => {
     if (!rows.length) { toast("Nothing to export.", "error"); return; }
 
     const cell = (v) => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`;
-    const head = ["No.", "Customer", "Mobile", "Date", "Status", "Total", "Paid", "Balance", "Payment mode", "Payment date", "Notes"];
+    const head = ["No.", "Customer", "Mobile", "Date", "Status", "Total", "Advance paid", "Balance paid", "Balance paid date", "Balance pending", "Payment mode", "Advance payment date", "Notes"];
     const lines = [head.map(cell).join(",")];
     rows.forEach((b) => {
         lines.push([
             b.seq, b.customer, b.mobile, b.date, b.status,
-            b.total_amount || 0, b.booking_amount || 0, b.balance || 0,
+            b.total_amount || 0, b.booking_amount || 0, b.balance_amount || 0,
+            b.balance_payment_date || "", Math.max(
+                Number(b.total_amount || 0) -
+                Number(b.booking_amount || 0) -
+                Number(b.balance_amount || 0),
+                0
+            ),
             b.payment_mode || "", b.payment_date || "", b.notes || ""
         ].map(cell).join(","));
     });
