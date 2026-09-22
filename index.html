@@ -1380,10 +1380,9 @@ function updateStats() {
   const advance = active.filter((b) => b.status === "Reserved").reduce((s, b) => s + Number(b.booking_amount || 0), 0);
   const pending = active.reduce((s, b) => s + Math.max(
     Number(b.total_amount || 0) - Number(b.booking_amount || 0) - Number(b.balance_amount || 0), 0), 0);
-  const revenue = bookings
+ const revenue = bookings
   .filter((b) => b.status === "Booked" || b.status === "Cancelled" || b.status === "Reserved")
   .reduce((s, b) => s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0), 0);
-
   $("totalBookings").textContent = active.length;
   $("bookedDates").textContent = active.filter((b) => b.status === "Booked").length;
   $("reservedDates").textContent = active.filter((b) => b.status === "Reserved").length;
