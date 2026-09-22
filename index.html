@@ -1129,7 +1129,10 @@ function renderCalendar() {
     else if (status === "Reserved") counts.reserved++;
     else if (status === "Blocked") counts.blocked++;
 
-    const label = status === "Booked" ? (booking.customer || "Booked") : status;
+    const label =
+      status === "Booked" || status === "Reserved"
+        ? (booking.customer || status)
+        : status;
     const isPast = dateString < todayStr;
     const pos = firstDay + day - 1;
 
