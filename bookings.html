@@ -745,19 +745,28 @@ function renderChips() {
 }
 
 function renderSummary(rows) {
+  // Total value & Pending still exclude Cancelled
   const live = rows.filter((b) => b.status !== "Cancelled");
   const total = live.reduce((s, b) => s + Number(b.total_amount || 0), 0);
-  // Received = Advance paid + Balance paid
-  const paid = live.reduce(
-    (s, b) => s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0),
-    0
-  );
   const bal = live.reduce((s, b) => s + pendingOf(b), 0);
+
+  // Received = (Advance + Balance) for active bookings
+  //          + Advance of Cancelled bookings
+  const paid = rows.reduce((s, b) => {
+    const advance = Number(b.booking_amount || 0);
+    const balance = Number(b.balance_amount || 0);
+    if (b.status === "Cancelled") {
+      return s + advance;               // only advance of cancelled
+    }
+    return s + advance + balance;       // full received for others
+  }, 0);
+
   $("summary").innerHTML = `
     <div><span>Showing</span><strong>${rows.length}</strong></div>
     <div><span>Total value</span><strong>${fmtINR(total)}</strong></div>
     <div><span>Received</span><strong class="in">${fmtINR(paid)}</strong></div>
     <div><span>Pending</span><strong class="due">${fmtINR(bal)}</strong></div>`;
+}
 }
 
 function renderTable() {
