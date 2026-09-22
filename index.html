@@ -1168,9 +1168,9 @@ function renderCalendar() {
   requestAnimationFrame(() => updateRing(counts, daysInMonth));
 }
 
-function previousMonth() { currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1); renderCalendar(); }
-function nextMonth() { currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1); renderCalendar(); }
-function goToday() { currentDate = new Date(); renderCalendar(); }
+function previousMonth() { currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1); renderCalendar(); updateStats(); }
+function nextMonth() { currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1); renderCalendar(); updateStats(); }
+function goToday() { currentDate = new Date(); renderCalendar(); updateStats(); }
 
 /* ---------- Form ---------- */
 function updateBalance() {
@@ -1372,17 +1372,25 @@ function closeModal() { $("dateModal").classList.remove("open"); }
 
 /* ---------- Stats ---------- */
 function updateStats() {
-  const todayStr = formatDate(new Date());
   const active = bookings.filter((b) => b.status !== "Cancelled");
-  const cancelled = bookings.filter((b) => b.status === "Cancelled");
-  const pastActive = active.filter((b) => b.date < todayStr);
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const inMonth = (dateStr) => {
+    if (!dateStr) return false;
+    const d = new Date(dateStr + "T00:00:00");
+    return d.getFullYear() === year && d.getMonth() === month;
+  };
+  const monthBookings = bookings.filter((b) => inMonth(b.date));
+  const monthActive = monthBookings.filter((b) => b.status !== "Cancelled");
 
   const advance = active.filter((b) => b.status === "Reserved").reduce((s, b) => s + Number(b.booking_amount || 0), 0);
-  const pending = active.reduce((s, b) => s + Math.max(
+  // Balance pending & revenue: only for the displayed month
+  const pending = monthActive.reduce((s, b) => s + Math.max(
     Number(b.total_amount || 0) - Number(b.booking_amount || 0) - Number(b.balance_amount || 0), 0), 0);
- const revenue = bookings
-  .filter((b) => b.status === "Booked" || b.status === "Cancelled" || b.status === "Reserved")
-  .reduce((s, b) => s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0), 0);
+  const revenue = monthBookings
+    .filter((b) => b.status === "Booked" || b.status === "Cancelled" || b.status === "Reserved")
+    .reduce((s, b) => s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0), 0);
+
   $("totalBookings").textContent = active.length;
   $("bookedDates").textContent = active.filter((b) => b.status === "Booked").length;
   $("reservedDates").textContent = active.filter((b) => b.status === "Reserved").length;
