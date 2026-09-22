@@ -1373,23 +1373,43 @@ function closeModal() { $("dateModal").classList.remove("open"); }
 /* ---------- Stats ---------- */
 function updateStats() {
   const active = bookings.filter((b) => b.status !== "Cancelled");
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const inMonth = (dateStr) => {
-    if (!dateStr) return false;
-    const d = new Date(dateStr + "T00:00:00");
-    return d.getFullYear() === year && d.getMonth() === month;
-  };
+  // Match by YYYY-MM prefix (avoids timezone issues with Date parsing)
+  const monthKey =
+    currentDate.getFullYear() +
+    "-" +
+    String(currentDate.getMonth() + 1).padStart(2, "0");
+  const inMonth = (dateStr) => String(dateStr || "").slice(0, 7) === monthKey;
   const monthBookings = bookings.filter((b) => inMonth(b.date));
   const monthActive = monthBookings.filter((b) => b.status !== "Cancelled");
 
-  const advance = active.filter((b) => b.status === "Reserved").reduce((s, b) => s + Number(b.booking_amount || 0), 0);
-  // Balance pending & revenue: only for the displayed month
-  const pending = monthActive.reduce((s, b) => s + Math.max(
-    Number(b.total_amount || 0) - Number(b.booking_amount || 0) - Number(b.balance_amount || 0), 0), 0);
+  // All three money figures are for the displayed month only
+  const advance = monthActive
+    .filter((b) => b.status === "Reserved")
+    .reduce((s, b) => s + Number(b.booking_amount || 0), 0);
+  const pending = monthActive.reduce(
+    (s, b) =>
+      s +
+      Math.max(
+        Number(b.total_amount || 0) -
+          Number(b.booking_amount || 0) -
+          Number(b.balance_amount || 0),
+        0
+      ),
+    0
+  );
+  // Revenue = money received (advance + balance paid) for Booked / Cancelled / Reserved in this month
   const revenue = monthBookings
-    .filter((b) => b.status === "Booked" || b.status === "Cancelled" || b.status === "Reserved")
-    .reduce((s, b) => s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0), 0);
+    .filter(
+      (b) =>
+        b.status === "Booked" ||
+        b.status === "Cancelled" ||
+        b.status === "Reserved"
+    )
+    .reduce(
+      (s, b) =>
+        s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0),
+      0
+    );
 
   $("totalBookings").textContent = active.length;
   $("bookedDates").textContent = active.filter((b) => b.status === "Booked").length;
