@@ -20,43 +20,33 @@
   --glass-strong: rgba(255, 255, 255, 0.94);
   --line: rgba(0, 105, 92, 0.12);
   --line-strong: rgba(0, 105, 92, 0.24);
-
   --ink: #0c2529;
   --muted: #4f6b70;
-
   --lumen: #00a88a;
   --lumen-deep: #00695c;
   --lumen-2: #008573;
   --lumen-text: #00695c;
   --lumen-soft: rgba(0, 168, 138, 0.13);
-
   --sky: #7cc4ff;
   --sky-soft: rgba(124, 196, 255, 0.24);
   --sky-text: #0b5ca8;
-
   --amber: #f0a500;
   --amber-soft: rgba(240, 165, 0, 0.15);
   --amber-text: #8a5a00;
-
   --coral: #e8556a;
   --coral-soft: rgba(232, 85, 106, 0.12);
   --coral-text: #b3263d;
-
   --slate: #8fa3a8;
   --slate-soft: rgba(143, 163, 168, 0.2);
   --slate-text: #54696e;
-
   --r-lg: 26px;
   --r-md: 16px;
   --shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 22px 44px -26px rgba(0, 80, 70, 0.3), 0 2px 8px -3px rgba(0, 80, 70, 0.07);
-
   --font: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --display: 'Unbounded', 'Manrope', system-ui, sans-serif;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html { background: var(--mist); color-scheme: light; }
-
 body {
   font-family: var(--font);
   font-size: 15px;
@@ -65,8 +55,6 @@ body {
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
 }
-
-/* Atmosphere: a pale light field plus a fine survey grid that fades out */
 body::before {
   content: "";
   position: fixed;
@@ -89,12 +77,9 @@ body::after {
   -webkit-mask-image: radial-gradient(90% 70% at 62% 0%, #000, transparent 78%);
   mask-image: radial-gradient(90% 70% at 62% 0%, #000, transparent 78%);
 }
-
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 3px solid rgba(0, 168, 138, 0.6); outline-offset: 2px; }
 .muted { color: var(--muted); }
-
-/* ---------- Side rail (desktop) / top bar + dock (mobile) ---------- */
 .rail {
   position: fixed;
   left: 16px;
@@ -119,7 +104,6 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: var(--shadow), 0 0 0 1px var(--line);
 }
-
 .brand { display: flex; align-items: center; gap: 12px; padding: 0 6px; }
 .mark {
   width: 44px;
@@ -141,7 +125,6 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.2;
 }
 .brand-text small { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; font-weight: 600; }
-
 .nav { display: grid; gap: 6px; }
 .nav a {
   position: relative;
@@ -174,7 +157,6 @@ a { color: inherit; text-decoration: none; }
   background: var(--lumen);
   box-shadow: 0 0 14px var(--lumen);
 }
-
 .rail-foot { margin-top: auto; display: grid; gap: 8px; }
 .sync {
   display: flex;
@@ -206,11 +188,8 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800;
   margin-left: 4px;
 }
-
-/* ---------- Layout ---------- */
 .main { margin-left: 252px; padding: 30px 30px 60px; }
 .wrap { max-width: 1240px; margin: 0 auto; }
-
 .page-head {
   display: flex;
   justify-content: space-between;
@@ -227,7 +206,6 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.15;
 }
 .page-head p { color: var(--muted); margin-top: 8px; font-size: 14px; font-weight: 500; max-width: 60ch; }
-
 .panel {
   background: var(--glass);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
@@ -237,8 +215,6 @@ a { color: inherit; text-decoration: none; }
   padding: 24px;
   box-shadow: var(--shadow), 0 0 0 1px var(--line);
 }
-
-/* ---------- Buttons ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -256,7 +232,6 @@ a { color: inherit; text-decoration: none; }
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: none; }
 .btn:disabled { opacity: 0.55; cursor: wait; transform: none; }
-
 .btn-primary {
   color: #fff;
   background: linear-gradient(135deg, #00695c, #008573);
@@ -272,10 +247,7 @@ a { color: inherit; text-decoration: none; }
 .btn-link { width: auto; margin-top: 0; padding: 12px 20px; }
 .btn-row { display: flex; gap: 10px; }
 .btn-row .btn { margin-top: 16px; }
-
-/* ---------- Form controls ---------- */
 label { display: block; font-size: 12.5px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
-
 input, select, textarea {
   width: 100%;
   background-color: rgba(255, 255, 255, 0.88);
@@ -303,8 +275,6 @@ select {
   background-position: right 14px center;
 }
 textarea { resize: vertical; min-height: 78px; }
-
-/* ---------- Pills ---------- */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -319,8 +289,6 @@ textarea { resize: vertical; min-height: 78px; }
 .pill-reserved { background: var(--amber-soft); color: var(--amber-text); }
 .pill-available { background: var(--lumen-soft); color: var(--lumen-text); }
 .pill-cancelled, .pill-blocked { background: var(--slate-soft); color: var(--slate-text); }
-
-/* ---------- Modal ---------- */
 .modal {
   display: none;
   position: fixed;
@@ -364,7 +332,6 @@ textarea { resize: vertical; min-height: 78px; }
   transition: background 0.15s, color 0.15s;
 }
 .close:hover { background: rgba(0, 168, 138, 0.16); color: var(--ink); }
-
 .detail-list { display: grid; margin-bottom: 4px; }
 .detail-list div {
   display: flex;
@@ -377,11 +344,8 @@ textarea { resize: vertical; min-height: 78px; }
 .detail-list div:last-child { border-bottom: 0; }
 .detail-list span:first-child { color: var(--muted); font-weight: 600; }
 .detail-list span:last-child { text-align: right; word-break: break-word; font-weight: 700; }
-
 .note { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
 .note.ok { color: var(--lumen-text); }
-
-/* ---------- Toasts ---------- */
 #toasts { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: grid; gap: 8px; z-index: 200; width: min(92vw, 380px); }
 .toast {
   position: relative;
@@ -400,8 +364,6 @@ textarea { resize: vertical; min-height: 78px; }
 .toast::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--lumen); box-shadow: 0 0 12px var(--lumen); }
 .toast.error::before { background: var(--coral); box-shadow: 0 0 12px var(--coral); }
 .toast.out { opacity: 0; }
-
-/* ---------- Mobile: top bar + floating dock ---------- */
 @media (max-width: 900px) {
   .rail {
     position: sticky;
@@ -420,7 +382,6 @@ textarea { resize: vertical; min-height: 78px; }
   .mark { width: 38px; height: 38px; border-radius: 13px; }
   .mark svg { width: 22px; height: 22px; }
   .brand-text small { display: none; }
-
   .nav {
     position: fixed;
     left: 50%;
@@ -438,32 +399,25 @@ textarea { resize: vertical; min-height: 78px; }
   }
   .nav a { flex-direction: column; gap: 3px; padding: 9px 26px 10px; font-size: 12px; border-radius: 20px; }
   .nav a.active::before { left: 50%; top: auto; bottom: -1px; width: 22px; height: 3px; transform: translateX(-50%); border-radius: 3px 3px 0 0; }
-
   .rail-foot { margin: 0; display: flex; }
   .admin-chip { display: none; }
   .sync { padding: 7px 12px; }
-
   .main { margin-left: 0; padding: 20px 14px 116px; }
   #toasts { bottom: 100px; }
 }
-
 @media (max-width: 520px) {
   .panel { padding: 18px; border-radius: 22px; }
   .modal-content { padding: 20px; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
-
 .toolbar { display: grid; grid-template-columns: minmax(220px, 1fr) auto auto; gap: 10px; align-items: center; margin-bottom: 16px; }
 .search-wrap { position: relative; }
 .search-wrap svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
 .search-wrap input { padding-left: 44px; }
 .toolbar select { width: auto; min-width: 210px; }
 .toolbar .btn { width: auto; margin: 0; padding: 13px 20px; }
-
-/* filter segments */
 .chips { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 5px; margin-bottom: 16px; border-radius: 19px; background: rgba(0, 168, 138, 0.07); box-shadow: inset 0 0 0 1px var(--line); }
 .chip {
   --c: var(--lumen);
@@ -480,8 +434,6 @@ textarea { resize: vertical; min-height: 78px; }
 .chip[data-filter="Booked"] { --c: var(--coral); }
 .chip[data-filter="Reserved"] { --c: var(--amber); }
 .chip[data-filter="Cancelled"] { --c: var(--slate); }
-
-/* readouts */
 .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 16px 6px; margin-bottom: 16px; border-radius: 20px; background: rgba(255, 255, 255, 0.62); box-shadow: inset 0 0 0 1px var(--line); }
 .summary > div { padding: 0 20px; border-left: 1px solid var(--line); min-width: 0; }
 .summary > div:first-child { border-left: 0; }
@@ -489,8 +441,6 @@ textarea { resize: vertical; min-height: 78px; }
 .summary strong { display: block; font-family: var(--display); font-weight: 500; font-size: clamp(16px, 1.6vw, 22px); letter-spacing: -0.02em; line-height: 1.1; white-space: nowrap; }
 .summary .in { color: var(--lumen-text); }
 .summary .due { color: var(--amber-text); }
-
-/* table */
 .table-container { overflow: auto; max-height: min(72vh, 780px); border-radius: 20px; background: #fff; border: 1px solid var(--line); }
 table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1400px; }
 th, td { padding: 14px; text-align: left; font-size: 13.5px; white-space: nowrap; border-bottom: 1px solid rgba(0, 105, 92, 0.08); }
@@ -510,22 +460,18 @@ td a.tel:hover { color: var(--lumen-text); border-color: var(--lumen); }
 .balance-clear { color: var(--lumen-text); font-weight: 800; }
 tr.is-cancelled td { color: var(--muted); background: #f6f9f9; }
 tr.is-cancelled td strong { text-decoration: line-through; text-decoration-color: rgba(84, 105, 110, 0.5); }
-
 .action-btn { display: inline-block; border: 0; border-radius: 10px; padding: 7px 13px; margin: 0 4px 0 0; cursor: pointer; font: 800 12px var(--font); transition: transform 0.15s, box-shadow 0.2s; }
 .action-btn:hover { transform: translateY(-1px); }
 .edit-btn { background: var(--sky-soft); color: var(--sky-text); box-shadow: 0 0 0 1px rgba(11, 92, 168, 0.22); }
 .book-btn { background: linear-gradient(135deg, #00695c, #008573); color: #fff; box-shadow: 0 8px 16px -10px rgba(0, 105, 92, 0.8); }
 .cancel-btn { background: var(--coral-soft); color: var(--coral-text); box-shadow: 0 0 0 1px rgba(232, 85, 106, 0.32); }
-
 .empty-state { text-align: center; color: var(--muted); padding: 56px 16px; white-space: normal; font-weight: 600; }
-
 @media (max-width: 900px) {
   .toolbar { grid-template-columns: 1fr 1fr; }
   .search-wrap { grid-column: 1 / -1; }
   .toolbar select { width: 100%; min-width: 0; }
   .toolbar .btn { width: 100%; }
 }
-
 @media (max-width: 760px) {
   .summary { grid-template-columns: 1fr 1fr; row-gap: 16px; }
   .summary > div:nth-child(3) { border-left: 0; }
@@ -544,11 +490,9 @@ tr.is-cancelled td strong { text-decoration: line-through; text-decoration-color
   .action-btn { margin: 0; }
   .empty-state { background: #fff; border-radius: 20px; }
 }
-
 </style>
 </head>
 <body>
-
 <aside class="rail">
   <a class="brand" href="index.html" aria-label="PARTH INDA Hotel and Resort, home">
     <span class="mark" aria-hidden="true">
@@ -575,7 +519,6 @@ tr.is-cancelled td strong { text-decoration: line-through; text-decoration-color
     <span class="admin-chip">Admin</span>
   </div>
 </aside>
-
 <main class="main">
  <div class="wrap">
   <div class="page-head">
@@ -585,12 +528,11 @@ tr.is-cancelled td strong { text-decoration: line-through; text-decoration-color
     </div>
     <a class="btn btn-primary btn-link" href="index.html">Add booking</a>
   </div>
-
   <section class="panel">
     <div class="toolbar">
       <div class="search-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input class="search" type="search" id="search" placeholder="Search name, mobile, notes or booking no." autocomplete="off" aria-label="Search bookings">
+        <input class="search" type="search" id="search" placeholder="Search name, mobile, notes, booking no. or month" autocomplete="off" aria-label="Search bookings">
       </div>
       <select id="sortBy" aria-label="Sort bookings">
         <option value="date-asc">Date: earliest first</option>
@@ -600,10 +542,8 @@ tr.is-cancelled td strong { text-decoration: line-through; text-decoration-color
       </select>
       <button class="btn btn-secondary" type="button" id="exportBtn">Download CSV</button>
     </div>
-
     <div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
     <div class="summary" id="summary"></div>
-
     <div class="table-container">
       <table>
         <thead>
@@ -630,7 +570,6 @@ tr.is-cancelled td strong { text-decoration: line-through; text-decoration-color
   </section>
  </div>
 </main>
-
 <script>
 /* =====================================================
    SUPABASE CONFIG
@@ -639,12 +578,10 @@ const SUPABASE_URL = "https://bolwtbueazlfzeeyggir.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbHd0YnVlYXpsZnplZXlnZ2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3MTgxNTAsImV4cCI6MjEwNTI5NDE1MH0.IYGWTYCCIr_S5Gv66AxuRn5RLk_XzLyCTm-FwUM8bXs";
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 /* =====================================================
    HELPERS
 ===================================================== */
 const $ = (id) => document.getElementById(id);
-
 function escapeHTML(value) {
   return String(value == null ? "" : value)
     .replace(/&/g, "&amp;")
@@ -653,25 +590,21 @@ function escapeHTML(value) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-
 function fmtINR(n) {
   return "₹" + Number(n || 0).toLocaleString("en-IN");
 }
-
 function fmtDate(str) {
   if (!str) return "-";
   const d = new Date(str + "T00:00:00");
   if (isNaN(d)) return str;
   return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 }
-
 function formatDate(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
-
 function assignNumbers(rows) {
   const sorted = rows.slice().sort((a, b) => {
     if (a.created_at && b.created_at) return new Date(a.created_at) - new Date(b.created_at);
@@ -682,14 +615,11 @@ function assignNumbers(rows) {
   });
   return sorted;
 }
-
 async function fetchBookings() {
   const { data, error } = await supabaseClient.from("bookings").select("*");
   if (error) throw error;
   return assignNumbers(data || []);
 }
-
-/* Sidebar connection indicator: "ok" | "error" | "idle" */
 function setSync(state) {
   const el = $("sync");
   if (!el) return;
@@ -701,7 +631,6 @@ function setSync(state) {
       ? "Can't reach database"
       : "Connecting";
 }
-
 function toast(message, type = "ok") {
   let box = $("toasts");
   if (!box) {
@@ -719,7 +648,6 @@ function toast(message, type = "ok") {
     setTimeout(() => t.remove(), 260);
   }, 3200);
 }
-
 function confirmDialog(message, okLabel = "Confirm", danger = false) {
   return new Promise((resolve) => {
     const wrap = document.createElement("div");
@@ -743,21 +671,20 @@ function confirmDialog(message, okLabel = "Confirm", danger = false) {
     wrap.querySelector('[data-r="0"]').focus();
   });
 }
-
 function cleanPhone(value) {
   const digits = String(value || "").replace(/\D/g, "");
   return digits.length > 10 ? digits.slice(-10) : digits;
 }
-
 </script>
-
 <script>
 let all = [];
 let filter = "All";
 let query = "";
 let sortMode = "date-asc";
-
 const pendingOf = (b) => Math.max(Number(b.total_amount || 0) - Number(b.booking_amount || 0) - Number(b.balance_amount || 0), 0);
+
+const MONTH_NAMES = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+const MONTH_ABBR  = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
 
 async function load() {
   try {
@@ -777,12 +704,27 @@ function visibleRows() {
   const q = query.trim().toLowerCase();
   if (q) {
     const digits = q.replace(/\D/g, "");
-    rows = rows.filter((b) =>
-      String(b.seq) === q.replace("#", "") ||
-      (b.customer || "").toLowerCase().includes(q) ||
-      (b.notes || "").toLowerCase().includes(q) ||
-      (digits && (b.mobile || "").includes(digits))
-    );
+    rows = rows.filter((b) => {
+      const dateRaw = (b.date || "").toLowerCase();           // "2025-03-15"
+      const dateFmt = fmtDate(b.date).toLowerCase();          // "15 mar 2025"
+      const monthNum = dateRaw.slice(5, 7);                   // "03"
+      const monthNumShort = String(Number(monthNum));         // "3"
+      const m = Number(monthNum) - 1;                         // 0–11
+      const matchesMonth =
+        monthNum === q ||
+        monthNumShort === q ||
+        (m >= 0 && m <= 11 && (MONTH_NAMES[m].startsWith(q) || MONTH_ABBR[m].startsWith(q)));
+
+      return (
+        String(b.seq) === q.replace("#", "") ||
+        (b.customer || "").toLowerCase().includes(q) ||
+        (b.notes || "").toLowerCase().includes(q) ||
+        (digits && (b.mobile || "").includes(digits)) ||
+        dateRaw.includes(q) ||
+        dateFmt.includes(q) ||
+        matchesMonth
+      );
+    });
   }
   rows.sort((a, b) => {
     switch (sortMode) {
@@ -805,7 +747,11 @@ function renderChips() {
 function renderSummary(rows) {
   const live = rows.filter((b) => b.status !== "Cancelled");
   const total = live.reduce((s, b) => s + Number(b.total_amount || 0), 0);
-  const paid = live.reduce((s, b) => s + Number(b.booking_amount || 0), 0);
+  // Received = Advance paid + Balance paid
+  const paid = live.reduce(
+    (s, b) => s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0),
+    0
+  );
   const bal = live.reduce((s, b) => s + pendingOf(b), 0);
   $("summary").innerHTML = `
     <div><span>Showing</span><strong>${rows.length}</strong></div>
@@ -820,16 +766,20 @@ function renderTable() {
   const tbody = $("bookingTable");
   if (!rows.length) {
     tbody.innerHTML = `<tr><td colspan="14" class="empty-state">${
-      all.length ? "No bookings match your search. Try a different name or number." : "No bookings yet. Add the first one from the calendar."
+      all.length
+        ? "No bookings match your search. Try a different name, number or month."
+        : "No bookings yet. Add the first one from the calendar."
     }</td></tr>`;
     return;
   }
-  tbody.innerHTML = rows.map((b) => {
-    const cancelled = b.status === "Cancelled";
-    const bal = pendingOf(b);
-    return `
+  tbody.innerHTML = rows
+    .map((b, index) => {
+      const cancelled = b.status === "Cancelled";
+      const bal = pendingOf(b);
+      const serial = index + 1; // always 1, 2, 3… for current view
+      return `
     <tr class="${cancelled ? "is-cancelled" : ""}">
-      <td class="num" data-label="No."><span>${b.seq}</span></td>
+      <td class="num" data-label="No."><span>${serial}</span></td>
       <td data-label="Guest"><strong>${escapeHTML(b.customer)}</strong></td>
       <td data-label="Mobile"><a class="tel" href="tel:+91${escapeHTML(cleanPhone(b.mobile))}">${escapeHTML(b.mobile)}</a></td>
       <td data-label="Date">${fmtDate(b.date)}</td>
@@ -848,10 +798,14 @@ function renderTable() {
         ${!cancelled ? `<button class="action-btn cancel-btn" data-act="cancel" data-id="${escapeHTML(b.id)}">Cancel</button>` : ""}
       </td>
     </tr>`;
-  }).join("");
+    })
+    .join("");
 }
 
-function render() { renderChips(); renderTable(); }
+function render() {
+  renderChips();
+  renderTable();
+}
 
 async function setStatus(id, status, message) {
   try {
@@ -885,21 +839,41 @@ $("chips").addEventListener("click", (e) => {
   filter = chip.dataset.filter;
   render();
 });
-$("search").addEventListener("input", (e) => { query = e.target.value; renderTable(); });
-$("sortBy").addEventListener("change", (e) => { sortMode = e.target.value; renderTable(); });
+
+$("search").addEventListener("input", (e) => {
+  query = e.target.value;
+  renderTable();
+});
+
+$("sortBy").addEventListener("change", (e) => {
+  sortMode = e.target.value;
+  renderTable();
+});
 
 $("exportBtn").addEventListener("click", () => {
   const rows = visibleRows();
-  if (!rows.length) { toast("Nothing to export.", "error"); return; }
+  if (!rows.length) {
+    toast("Nothing to export.", "error");
+    return;
+  }
   const cell = (v) => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`;
   const head = ["No.", "Guest", "Mobile", "Date", "Status", "Total", "Advance paid", "Balance paid", "Balance paid date", "Balance pending", "Payment mode", "Advance payment date", "Notes"];
   const lines = [head.map(cell).join(",")];
-  rows.forEach((b) => {
+  rows.forEach((b, index) => {
     lines.push([
-      b.seq, b.customer, b.mobile, b.date, b.status,
-      b.total_amount || 0, b.booking_amount || 0, b.balance_amount || 0,
-      b.balance_payment_date || "", pendingOf(b),
-      b.payment_mode || "", b.payment_date || "", b.notes || ""
+      index + 1,                    // renumbered serial for the export too
+      b.customer,
+      b.mobile,
+      b.date,
+      b.status,
+      b.total_amount || 0,
+      b.booking_amount || 0,
+      b.balance_amount || 0,
+      b.balance_payment_date || "",
+      pendingOf(b),
+      b.payment_mode || "",
+      b.payment_date || "",
+      b.notes || ""
     ].map(cell).join(","));
   });
   const blob = new Blob(["\ufeff" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
@@ -913,7 +887,6 @@ $("exportBtn").addEventListener("click", () => {
 });
 
 load();
-
 </script>
 </body>
 </html>
