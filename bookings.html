@@ -711,7 +711,7 @@ function renderChips() {
 
 function renderSummary(rows) {
   const live = rows.filter((b) => b.status !== "Cancelled");
-  const total = live.reduce((s, b) => s + Number(b.total_amount || 0), 0);
+  const total = paid + bal;
   const bal = live.reduce((s, b) => s + pendingOf(b), 0);
 
   // Received = (Advance + Balance) for active + Advance of Cancelled
