@@ -711,7 +711,6 @@ function renderChips() {
 
 function renderSummary(rows) {
   const live = rows.filter((b) => b.status !== "Cancelled");
-  const total = paid + bal;
   const bal = live.reduce((s, b) => s + pendingOf(b), 0);
 
   // Received = (Advance + Balance) for active + Advance of Cancelled
@@ -723,6 +722,9 @@ function renderSummary(rows) {
     }
     return s + advance + balance;
   }, 0);
+
+  // Total value = Received + Pending (must come after both are defined)
+  const total = paid + bal;
 
   $("summary").innerHTML = `
     <div><span>Showing</span><strong>${rows.length}</strong></div>
