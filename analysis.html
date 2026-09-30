@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARTH INDA | Hotel & Resort — Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--mist:#eef6f4;--glass:rgba(255,255,255,.74);--line:rgba(0,105,92,.12);--line-strong:rgba(0,105,92,.24);--ink:#0c2529;--muted:#4f6b70;--lumen:#00a88a;--lumen-2:#008573;--lumen-text:#00695c;--lumen-soft:rgba(0,168,138,.13);--sky:#7cc4ff;--sky-soft:rgba(124,196,255,.24);--sky-text:#0b5ca8;--amber:#f0a500;--amber-soft:rgba(240,165,0,.15);--amber-text:#8a5a00;--coral:#e8556a;--coral-soft:rgba(232,85,106,.12);--coral-text:#b3263d;--slate:#8fa3a8;--slate-soft:rgba(143,163,168,.2);--slate-text:#54696e;--shadow:inset 0 1px 0 rgba(255,255,255,.9),0 22px 44px -26px rgba(0,80,70,.3),0 2px 8px -3px rgba(0,80,70,.07);--font:'Manrope',system-ui,sans-serif;--display:'Unbounded','Manrope',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--mist);color-scheme:light}
+body{font-family:var(--font);font-size:15px;color:var(--ink);min-height:100vh;line-height:1.5;font-variant-numeric:tabular-nums}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(60% 46% at 88% -6%,rgba(124,196,255,.34),transparent 70%),radial-gradient(52% 42% at -4% 104%,rgba(0,168,138,.16),transparent 70%)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid rgba(0,168,138,.6);outline-offset:2px}
+.muted{color:var(--muted)}
+.rail{position:fixed;left:16px;top:16px;bottom:16px;width:220px;z-index:60;display:flex;flex-direction:column;gap:30px;padding:22px 14px 14px}
+.rail::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:28px;background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow),0 0 0 1px var(--line)}
+.brand{display:flex;align-items:center;gap:12px;padding:0 6px}
+.mark{width:44px;height:44px;border-radius:15px;flex-shrink:0;display:grid;place-items:center;background:linear-gradient(140deg,#00796b 10%,#2bbfb0 70%,#7cc4ff);box-shadow:0 10px 20px -8px rgba(0,120,105,.6),inset 0 1px 0 rgba(255,255,255,.5)}
+.mark svg{width:26px;height:26px}
+.brand-text b{display:block;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.06em;line-height:1.2}
+.brand-text small{display:block;font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
+.nav{display:grid;gap:6px}
+.nav a{position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;font-weight:700;font-size:14px;color:var(--muted);transition:.2s}
+.nav a svg{width:20px;height:20px;flex-shrink:0}
+.nav a:hover{color:var(--ink);background:rgba(0,168,138,.08)}
+.nav a.active{color:var(--lumen-text);background:#fff;box-shadow:0 12px 24px -14px rgba(0,105,92,.55),0 0 0 1px var(--line)}
+.nav a.active::before{content:"";position:absolute;left:-14px;top:50%;width:4px;height:24px;transform:translateY(-50%);border-radius:0 4px 4px 0;background:var(--lumen);box-shadow:0 0 14px var(--lumen)}
+.rail-foot{margin-top:auto;display:grid;gap:8px}
+.sync{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:16px;background:rgba(143,163,168,.14);font-size:12.5px;font-weight:700;color:var(--slate-text)}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--slate);flex-shrink:0}
+.sync[data-state=ok]{background:var(--lumen-soft);color:var(--lumen-text)}.sync[data-state=ok] i{background:var(--lumen)}
+.sync[data-state=error]{background:var(--coral-soft);color:var(--coral-text)}.sync[data-state=error] i{background:var(--coral)}
+.admin-chip{justify-self:start;padding:5px 12px;border-radius:999px;background:var(--sky-soft);color:var(--sky-text);font-size:12px;font-weight:800;margin-left:4px}
+.main{margin-left:252px;padding:30px 30px 60px}.wrap{max-width:1240px;margin:0 auto}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.page-head h1{font-family:var(--display);font-weight:500;font-size:clamp(24px,3vw,34px);letter-spacing:-.025em;line-height:1.15}
+.page-head p{color:var(--muted);margin-top:8px;font-size:14px;font-weight:500;max-width:60ch}
+.panel{background:var(--glass);backdrop-filter:blur(18px) saturate(1.2);border:1px solid rgba(255,255,255,.85);border-radius:26px;padding:24px;box-shadow:var(--shadow),0 0 0 1px var(--line);margin-bottom:18px}
+input,select{width:100%;background-color:rgba(255,255,255,.88);border:0;border-radius:14px;color:var(--ink);padding:13px 14px;font:500 14.5px var(--font);outline:none;box-shadow:inset 0 0 0 1px var(--line-strong);transition:.15s}
+input:focus,select:focus{background-color:#fff;box-shadow:inset 0 0 0 1.5px var(--lumen),0 0 0 5px var(--lumen-soft)}
+select{-webkit-appearance:none;appearance:none;padding-right:40px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234f6b70' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:3px 11px 3px 9px;border-radius:999px;font-size:12px;font-weight:800}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.p-in{background:var(--lumen-soft);color:var(--lumen-text)}.p-due{background:var(--amber-soft);color:var(--amber-text)}.p-x{background:var(--slate-soft);color:var(--slate-text)}.p-rep{background:var(--sky-soft);color:var(--sky-text)}
+#toasts{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;width:min(92vw,380px)}
+.toast{background:#fff;padding:14px 16px;border-radius:16px;font-size:13.5px;font-weight:700;box-shadow:0 20px 40px -16px rgba(0,60,55,.45),0 0 0 1px var(--line)}
+/* tabs */
+.chips{display:inline-flex;flex-wrap:wrap;gap:4px;padding:5px;margin-bottom:18px;border-radius:19px;background:rgba(0,168,138,.07);box-shadow:inset 0 0 0 1px var(--line)}
+.chip{padding:10px 20px;border:0;border-radius:14px;background:transparent;color:var(--muted);font:700 14px var(--font);cursor:pointer;transition:.15s}
+.chip:hover{color:var(--ink)}
+.chip.active{background:#fff;color:var(--lumen-text);box-shadow:0 10px 20px -12px rgba(0,80,70,.55),0 0 0 1px var(--line-strong)}
+.view{display:none}.view.on{display:block}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.kpi{padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px var(--line)}
+.kpi span{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.kpi strong{display:block;font-family:var(--display);font-weight:500;font-size:clamp(15px,1.5vw,21px);letter-spacing:-.02em;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kpi small{display:block;font-size:12px;color:var(--muted);font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.in{color:var(--lumen-text)}.due{color:var(--amber-text)}.neg{color:var(--coral-text)}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px;align-items:end}
+/* table */
+.table-container{overflow:auto;max-height:min(70vh,760px);border-radius:20px;background:#fff;border:1px solid var(--line)}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:1000px}
+th,td{padding:13px 14px;text-align:left;font-size:13.5px;white-space:nowrap;border-bottom:1px solid rgba(0,105,92,.08)}
+th{position:sticky;top:0;z-index:3;background:#eaf5f2;color:var(--muted);font-weight:800;font-size:12.5px}
+th.s{cursor:pointer}th.s:hover{color:var(--lumen-text)}
+td{background:#fff;font-weight:500}tbody tr:hover td{background:#f1faf7}
+tbody tr:last-child td{border-bottom:0}
+tfoot td{position:sticky;bottom:0;background:#eaf5f2;font-weight:800;border-top:1px solid var(--line-strong)}
+.r{text-align:right}
+td.rank span{display:inline-block;min-width:34px;text-align:center;padding:3px 9px;border-radius:10px;background:var(--lumen-soft);color:var(--lumen-text);font-weight:800;font-size:12.5px}
+tr.top td.rank span{background:var(--amber-soft);color:var(--amber-text)}
+.share{display:flex;align-items:center;gap:8px;min-width:120px}
+.share i{display:block;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--lumen),#5fd9c1);min-width:2px}
+.share b{font-size:12px;color:var(--muted);font-weight:700}
+.empty{text-align:center;color:var(--muted);padding:48px 16px;font-weight:600;white-space:normal}
+/* chart */
+.chart{display:flex;align-items:flex-end;gap:8px;height:170px;padding:8px 4px 0;margin-bottom:16px;overflow-x:auto}
+.col{flex:1;min-width:34px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px}
+.bar{width:100%;max-width:46px;display:flex;flex-direction:column;justify-content:flex-end;flex:1}
+.bar i{display:block;width:100%}
+.bar .rc{background:linear-gradient(180deg,#5fd9c1,var(--lumen));border-radius:8px 8px 0 0}
+.bar .pd{background:linear-gradient(180deg,#ffd166,var(--amber));border-radius:8px 8px 0 0}
+.bar .rc+.pd{border-radius:8px 8px 0 0}
+.col span{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}
+.legend{display:flex;gap:16px;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.tabwrap{display:flex;justify-content:center;margin-bottom:18px}.tabwrap .chips{margin-bottom:0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:8px}
+.item{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px dashed var(--line-strong)}
+.item:last-child{border-bottom:0}.item .grow{flex:1;min-width:0}
+.item strong{display:block;font-weight:800;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+.ra{text-align:right;display:grid;gap:4px;justify-items:end}
+.rk{min-width:34px;text-align:center;padding:3px 9px;border-radius:10px;background:var(--lumen-soft);color:var(--lumen-text);font-weight:800;font-size:12.5px}
+.mini{height:5px;border-radius:5px;background:var(--lumen-soft);margin-top:7px}.mini i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--lumen),#5fd9c1)}
+.p-bad{background:var(--coral-soft);color:var(--coral-text)}
+.list{margin-top:14px}.sec{font-family:var(--display);font-size:13px;font-weight:500;margin:4px 0 2px}
+@media(max-width:700px){.chips{display:flex;width:100%}.chip{flex:1;padding:10px 6px;font-size:13px}.tiles{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){
+.rail{position:sticky;top:0;left:0;right:0;bottom:auto;width:auto;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px}
+.rail::before{border-radius:0;border-width:0 0 1px}.mark{width:38px;height:38px;border-radius:13px}.brand-text small,.admin-chip{display:none}
+.nav{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:4px;padding:6px;border-radius:26px;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);box-shadow:0 24px 44px -16px rgba(0,60,55,.5),0 0 0 1px var(--line);z-index:70}
+.nav a{flex-direction:column;gap:3px;padding:9px 18px 10px;font-size:12px;border-radius:20px}
+.nav a.active::before{left:50%;top:auto;bottom:-1px;width:22px;height:3px;transform:translateX(-50%);border-radius:3px 3px 0 0}
+.rail-foot{margin:0;display:flex}.sync{padding:7px 12px}
+.main{margin-left:0;padding:20px 14px 116px}#toasts{bottom:100px}}
+@media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}.panel{padding:18px;border-radius:22px}}
+</style>
+</head>
+<body>
+<aside class="rail">
+  <a class="brand" href="index.html">
+    <span class="mark"><svg viewBox="0 0 32 32" fill="none"><path d="M8 19a8 8 0 0 1 16 0z" fill="#fff"/><path d="M16 5.5V8M7.6 9.6l1.8 1.8M24.4 9.6l-1.8 1.8" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M5.5 23h21M10 27h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
+    <span class="brand-text"><b>PARTH INDA</b><small>Hotel &amp; Resort</small></span>
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="4"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></svg><span>Calendar</span></a>
+    <a href="bookings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="18" height="17" rx="4"/><path d="M3 9.5h18M9 9.5v11"/></svg><span>Bookings</span></a>
+    <a href="analysis.html" class="active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Analysis</span></a>
+  </nav>
+  <div class="rail-foot"><div class="sync" id="sync" data-state="idle" role="status"><i></i><span id="syncText">Connecting</span></div><span class="admin-chip">Admin</span></div>
+</aside>
+
+<main class="main"><div class="wrap">
+  <div class="page-head"><div><h1>Analysis</h1><p>Understand your guests and your income. Cancelled bookings count only the advance you kept.</p></div></div>
+  <div class="tabwrap"><div class="chips" id="tabs" role="tablist">
+    <button class="chip active" data-tab="dash">Dashboard</button>
+    <button class="chip" data-tab="cust">Customer</button>
+    <button class="chip" data-tab="rev">Revenue</button>
+  </div></div>
+
+  <!-- DASHBOARD -->
+  <section class="view on" id="v-dash">
+    <div class="kpis" id="dKpis"></div>
+    <div class="tabwrap"><div class="chips" id="dTabs">
+      <button class="chip active" data-d="month">Month</button>
+      <button class="chip" data-d="pending">Pending</button>
+      <button class="chip" data-d="top">Top 10</button>
+      <button class="chip" data-d="insights">Insights</button>
+    </div></div>
+    <div class="panel" id="dPanel"></div>
+  </section>
+
+  <!-- CUSTOMER -->
+  <section class="view" id="v-cust">
+    <div class="kpis" id="cKpis"></div>
+    <div class="panel">
+      <div class="filters">
+        <div style="grid-column:span 2"><label for="cSearch">Search</label><input type="search" id="cSearch" placeholder="Name or mobile" autocomplete="off"></div>
+        <div><label for="cSeg">Show</label><select id="cSeg"><option value="all">All customers</option><option value="repeat">Repeat (2+ bookings)</option><option value="once">One-time</option><option value="pending">Has pending balance</option><option value="cancelled">Has cancellations</option></select></div>
+        <div><label for="cYear">Year</label><select id="cYear"></select></div>
+        <div><label for="cSort">Sort by</label><select id="cSort">
+          <option value="received">Highest revenue received</option><option value="total">Highest total value</option><option value="count">Most bookings</option><option value="pending">Highest pending</option><option value="avg">Highest avg booking</option><option value="last">Latest booking</option><option value="name">Name A–Z</option></select></div>
+      </div>
+      <div class="table-container"><table>
+        <thead><tr><th>#</th><th>Guest</th><th>Mobile</th><th class="r">Bookings</th><th class="r">Cancelled</th><th class="r">Total value</th><th class="r">Received</th><th class="r">Pending</th><th class="r">Avg booking</th><th>Last stay</th><th>Share of revenue</th><th>Tag</th></tr></thead>
+        <tbody id="cBody"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- REVENUE -->
+  <section class="view" id="v-rev">
+    <div class="kpis" id="rKpis"></div>
+    <div class="panel">
+      <div class="filters">
+        <div><label for="rMode">View by</label><select id="rMode"><option value="month">Month</option><option value="quarter">Quarter</option><option value="year">Year</option></select></div>
+        <div><label for="rType">Year type</label><select id="rType"><option value="cal">Calendar (Jan–Dec)</option><option value="fy">Financial (Apr–Mar)</option></select></div>
+        <div><label for="rYear">Year</label><select id="rYear"></select></div>
+        <div><label for="rEmpty">Periods</label><select id="rEmpty"><option value="all">Show all</option><option value="hide">Hide empty</option></select></div>
+        <div><label for="rSort">Sort by</label><select id="rSort"><option value="time">Time order</option><option value="received">Highest received</option><option value="total">Highest total value</option><option value="count">Most bookings</option></select></div>
+      </div>
+      <div class="legend"><span><i style="background:var(--lumen)"></i>Received</span><span><i style="background:var(--amber)"></i>Pending</span></div>
+      <div class="chart" id="rChart"></div>
+      <div class="table-container"><table>
+        <thead><tr><th>Period</th><th class="r">Bookings</th><th class="r">Booked</th><th class="r">Reserved</th><th class="r">Cancelled</th><th class="r">Total value</th><th class="r">Received</th><th class="r">Pending</th><th class="r">Avg booking</th><th class="r">Occupancy</th></tr></thead>
+        <tbody id="rBody"></tbody><tfoot id="rFoot"></tfoot>
+      </table></div>
+      <p class="muted" style="font-size:12.5px;font-weight:600;margin-top:12px">Periods are based on the booking (stay) date. Occupancy = booked + reserved dates ÷ days in the period.</p>
+    </div>
+  </section>
+</div></main>
+<div id="toasts"></div>
+
+<script>
+const supabaseClient = supabase.createClient("https://bolwtbueazlfzeeyggir.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbHd0YnVlYXpsZnplZXlnZ2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3MTgxNTAsImV4cCI6MjEwNTI5NDE1MH0.IYGWTYCCIr_S5Gv66AxuRn5RLk_XzLyCTm-FwUM8bXs");
+const $=id=>document.getElementById(id);
+const esc=v=>String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const inr=n=>"₹"+Number(n||0).toLocaleString("en-IN");
+const fmtDate=s=>{if(!s)return"-";const d=new Date(s+"T00:00:00");return isNaN(d)?s:d.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})};
+const phone=v=>{const d=String(v||"").replace(/\D/g,"");return d.length>10?d.slice(-10):d};
+const MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const num=x=>Number(x||0);
+const pendingOf=b=>b.status==="Cancelled"?0:Math.max(num(b.total_amount)-num(b.booking_amount)-num(b.balance_amount),0);
+const receivedOf=b=>b.status==="Cancelled"?num(b.booking_amount):num(b.booking_amount)+num(b.balance_amount);
+const valueOf=b=>b.status==="Cancelled"?0:num(b.total_amount);
+function setSync(s){const e=$("sync");e.dataset.state=s;$("syncText").textContent=s==="ok"?"Synced at "+new Date().toLocaleTimeString("en-IN",{hour:"numeric",minute:"2-digit"}):s==="error"?"Can't reach database":"Connecting"}
+function toast(m){const t=document.createElement("div");t.className="toast";t.textContent=m;$("toasts").appendChild(t);setTimeout(()=>t.remove(),3500)}
+function kpi(label,val,cls,sub){return `<div class="kpi"><span>${label}</span><strong class="${cls||""}">${val}</strong>${sub?`<small>${sub}</small>`:""}</div>`}
+
+let all=[];
+/* ---------- tabs ---------- */
+function showTab(t){document.querySelectorAll("#tabs .chip").forEach(c=>c.classList.toggle("active",c.dataset.tab===t));["dash","cust","rev"].forEach(k=>$("v-"+k).classList.toggle("on",k===t));history.replaceState(null,"","#"+t)}
+$("tabs").addEventListener("click",e=>{const c=e.target.closest("[data-tab]");if(c)showTab(c.dataset.tab)});
+
+/* ---------- CUSTOMER ---------- */
+function customers(yy){
+  const y=yy||$("cYear").value,map=new Map();
+  all.filter(b=>y==="all"||String(b.date||"").slice(0,4)===y).forEach(b=>{
+    const key=phone(b.mobile)||("n:"+String(b.customer||"").toLowerCase().trim());
+    let c=map.get(key);
+    if(!c){c={key,name:b.customer,mobile:phone(b.mobile),count:0,cancelled:0,total:0,received:0,pending:0,last:""};map.set(key,c)}
+    if(String(b.date||"")>=c.last){c.last=b.date||"";c.name=b.customer}
+    if(b.status==="Cancelled")c.cancelled++;else c.count++;
+    c.total+=valueOf(b);c.received+=receivedOf(b);c.pending+=pendingOf(b);
+  });
+  return [...map.values()].map(c=>({...c,avg:c.count?c.total/c.count:0}));
+}
+function renderCustomers(){
+  let rows=customers();
+  const q=$("cSearch").value.trim().toLowerCase(),seg=$("cSeg").value,sort=$("cSort").value;
+  const grand=rows.reduce((s,c)=>s+c.received,0);
+  const segs={repeat:c=>c.count>=2,once:c=>c.count===1,pending:c=>c.pending>0,cancelled:c=>c.cancelled>0};
+  rows=rows.filter(c=>(!q||(c.name||"").toLowerCase().includes(q)||c.mobile.includes(q.replace(/\D/g,"")||"\u0000"))&&(seg==="all"||segs[seg](c)));
+  const s={received:(a,b)=>b.received-a.received,total:(a,b)=>b.total-a.total,count:(a,b)=>b.count-a.count||b.received-a.received,pending:(a,b)=>b.pending-a.pending,avg:(a,b)=>b.avg-a.avg,last:(a,b)=>b.last.localeCompare(a.last),name:(a,b)=>(a.name||"").localeCompare(b.name||"")};
+  rows.sort(s[sort]);
+  const allRows=customers(),repeat=allRows.filter(c=>c.count>=2).length,top=[...allRows].sort(s.received)[0];
+  $("cKpis").innerHTML=kpi("Unique customers",allRows.length,"",`${repeat} repeat customers`)+
+    kpi("Repeat rate",allRows.length?Math.round(repeat/allRows.length*100)+"%":"0%","in","guests with 2+ bookings")+
+    kpi("Top customer",top?esc(top.name):"-","",top?inr(top.received)+" received":"")+
+    kpi("Avg value per customer",inr(allRows.length?allRows.reduce((a,c)=>a+c.total,0)/allRows.length:0),"","total value ÷ customers");
+  $("cBody").innerHTML=rows.length?rows.map((c,i)=>{
+    const pct=grand?c.received/grand*100:0;
+    const tag=c.count>=2?`<span class="pill p-rep">Repeat</span>`:c.count===0?`<span class="pill p-x">Cancelled only</span>`:c.pending>0?`<span class="pill p-due">Pending</span>`:`<span class="pill p-in">Clear</span>`;
+    return `<tr class="${i<3&&sort!=="name"?"top":""}"><td class="rank"><span>${i+1}</span></td><td><strong>${esc(c.name)}</strong></td><td>${c.mobile?`<a href="tel:+91${c.mobile}">${c.mobile}</a>`:"-"}</td><td class="r">${c.count}</td><td class="r">${c.cancelled}</td><td class="r">${inr(c.total)}</td><td class="r in"><b>${inr(c.received)}</b></td><td class="r ${c.pending>0?"due":"in"}"><b>${inr(c.pending)}</b></td><td class="r">${inr(c.avg)}</td><td>${fmtDate(c.last)}</td><td><div class="share"><i style="width:${Math.max(pct,0.5)}%;max-width:80px"></i><b>${pct.toFixed(1)}%</b></div></td><td>${tag}</td></tr>`}).join(""):`<tr><td colspan="12" class="empty">No customers match these filters.</td></tr>`;
+}
+
+/* ---------- REVENUE ---------- */
+function periodOf(dateStr,mode,fy){
+  const y=+dateStr.slice(0,4),m=+dateStr.slice(5,7),fyY=m>=4?y:y-1,yr=fy?fyY:y,fyl=`FY ${fyY}-${String(fyY+1).slice(2)}`;
+  if(mode==="month")return{key:`${y}-${String(m).padStart(2,"0")}`,label:`${MN[m-1]} ${y}`,yr};
+  if(mode==="quarter"){
+    if(fy){const q=Math.floor(((m-4+12)%12)/3)+1,r=["Apr–Jun","Jul–Sep","Oct–Dec","Jan–Mar"][q-1];return{key:`${fyY}-${q}`,label:`Q${q} (${r}) ${fyl}`,yr}}
+    const q=Math.ceil(m/3);return{key:`${y}-${q}`,label:`Q${q} (${["Jan–Mar","Apr–Jun","Jul–Sep","Oct–Dec"][q-1]}) ${y}`,yr}}
+  return{key:String(yr),label:fy?fyl:String(y),yr};
+}
+function revenueRows(){
+  const mode=$("rMode").value,fy=$("rType").value==="fy",yf=$("rYear").value,groups=new Map();
+  const get=(ds,seed)=>{const p=periodOf(ds,mode,fy);let g=groups.get(p.key);if(!g){g={key:p.key,label:p.label,yr:p.yr,months:new Set(),days:0,count:0,booked:0,reserved:0,cancelled:0,total:0,received:0,pending:0};groups.set(p.key,g)}
+    const ym=ds.slice(0,7);if(!g.months.has(ym)){g.months.add(ym);g.days+=new Date(+ds.slice(0,4),+ds.slice(5,7),0).getDate()}return g};
+  if(yf!=="all"){for(let i=0;i<12;i++){const yy=+yf,mm=fy?((i+3)%12)+1:i+1,y2=fy?(mm>=4?yy:yy+1):yy;get(`${y2}-${String(mm).padStart(2,"0")}-01`)}}
+  all.forEach(b=>{if(!b.date)return;const p=periodOf(b.date,mode,fy);if(yf!=="all"&&String(p.yr)!==yf)return;const g=get(b.date);
+    if(b.status==="Cancelled")g.cancelled++;else{g.count++;if(b.status==="Booked")g.booked++;else if(b.status==="Reserved")g.reserved++}
+    g.total+=valueOf(b);g.received+=receivedOf(b);g.pending+=pendingOf(b)});
+  let rows=[...groups.values()];
+  if($("rEmpty").value==="hide")rows=rows.filter(g=>g.count||g.cancelled);
+  const sort=$("rSort").value;
+  rows.sort(sort==="time"?(a,b)=>a.key.localeCompare(b.key,undefined,{numeric:true}):sort==="received"?(a,b)=>b.received-a.received:sort==="total"?(a,b)=>b.total-a.total:(a,b)=>b.count-a.count);
+  return rows;
+}
+function renderRevenue(){
+  const rows=revenueRows(),sum=k=>rows.reduce((s,g)=>s+g[k],0);
+  const best=[...rows].sort((a,b)=>b.received-a.received)[0],cnt=sum("count");
+  $("rKpis").innerHTML=kpi("Total received",inr(sum("received")),"in",cnt+" active bookings")+kpi("Pending balance",inr(sum("pending")),"due","from active bookings")+kpi("Cancelled",sum("cancelled"),"neg","advance kept counted in received")+kpi("Best period",best&&best.received?esc(best.label):"-","",best&&best.received?inr(best.received):"");
+  const mx=Math.max(1,...rows.map(g=>g.received+g.pending)),short=g=>$("rMode").value==="month"?g.label.slice(0,3):g.label.split(" ")[0];
+  const chartRows=$("rSort").value==="time"?rows:[...rows].sort((a,b)=>a.key.localeCompare(b.key,undefined,{numeric:true}));
+  $("rChart").innerHTML=chartRows.length?chartRows.map(g=>`<div class="col" title="${esc(g.label)}: received ${inr(g.received)}, pending ${inr(g.pending)}"><div class="bar"><i class="pd" style="height:${g.pending/mx*100}%"></i><i class="rc" style="height:${g.received/mx*100}%"></i></div><span>${esc(short(g))}</span></div>`).join(""):"";
+  $("rBody").innerHTML=rows.length?rows.map(g=>{const occ=g.days?Math.round((g.booked+g.reserved)/g.days*100):0;
+    return `<tr><td><strong>${esc(g.label)}</strong></td><td class="r">${g.count}</td><td class="r">${g.booked}</td><td class="r">${g.reserved}</td><td class="r">${g.cancelled}</td><td class="r">${inr(g.total)}</td><td class="r in"><b>${inr(g.received)}</b></td><td class="r ${g.pending>0?"due":"in"}"><b>${inr(g.pending)}</b></td><td class="r">${inr(g.count?g.total/g.count:0)}</td><td class="r">${occ}%</td></tr>`}).join(""):`<tr><td colspan="10" class="empty">No data for these filters.</td></tr>`;
+  const days=sum("days");
+  $("rFoot").innerHTML=rows.length?`<tr><td>Total</td><td class="r">${cnt}</td><td class="r">${sum("booked")}</td><td class="r">${sum("reserved")}</td><td class="r">${sum("cancelled")}</td><td class="r">${inr(sum("total"))}</td><td class="r">${inr(sum("received"))}</td><td class="r">${inr(sum("pending"))}</td><td class="r">${inr(cnt?sum("total")/cnt:0)}</td><td class="r">${days?Math.round((sum("booked")+sum("reserved"))/days*100):0}%</td></tr>`:"";
+}
+function fillYears(){
+  const cy=[...new Set(all.map(b=>String(b.date||"").slice(0,4)).filter(Boolean))].sort().reverse();
+  const keep=$("cYear").value;$("cYear").innerHTML=`<option value="all">All time</option>`+cy.map(y=>`<option>${y}</option>`).join("");if(cy.includes(keep))$("cYear").value=keep;
+  fillRevYears(true);
+}
+function fillRevYears(initial){
+  const fy=$("rType").value==="fy",set=new Set(all.filter(b=>b.date).map(b=>{const y=+b.date.slice(0,4),m=+b.date.slice(5,7);return fy&&m<4?y-1:y}));
+  const ys=[...set].sort().reverse(),cur=new Date().getFullYear(),curFy=new Date().getMonth()>=3?cur:cur-1,def=fy?curFy:cur,prev=$("rYear").value;
+  $("rYear").innerHTML=`<option value="all">All years</option>`+ys.map(y=>`<option value="${y}">${fy?`FY ${y}-${String(y+1).slice(2)}`:y}</option>`).join("");
+  $("rYear").value=(!initial&&prev&&[...$("rYear").options].some(o=>o.value===prev))?prev:(ys.includes(def)?String(def):"all");
+}
+/* ---------- DASHBOARD ---------- */
+const todayStr=(()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")})();
+let dTab="month",dMonth=todayStr.slice(0,7),dTop="received";
+const monthLabel=k=>MN[+k.slice(5,7)-1]+" "+k.slice(0,4);
+const shiftKey=(k,dm)=>{const d=new Date(+k.slice(0,4),+k.slice(5,7)-1+dm,1);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")};
+const tile=(l,v,c,s)=>`<div class="kpi"><span>${l}</span><strong class="${c||""}">${v}</strong>${s||""}</div>`;
+function delta(cur,prev,label){
+  if(!prev)return `<small>– vs ${label}</small>`;
+  const p=Math.round((cur-prev)/prev*100);
+  return `<small class="${p>=0?"in":"neg"}">${p>=0?"▲":"▼"} ${Math.abs(p)}% vs ${label}</small>`;
+}
+function monthStats(key){
+  const r={count:0,booked:0,reserved:0,cancelled:0,total:0,received:0,pending:0};
+  all.forEach(b=>{
+    if(String(b.date||"").slice(0,7)!==key)return;
+    if(b.status==="Cancelled")r.cancelled++;else{r.count++;if(b.status==="Booked")r.booked++;else if(b.status==="Reserved")r.reserved++}
+    r.total+=valueOf(b);r.received+=receivedOf(b);r.pending+=pendingOf(b);
+  });
+  r.days=new Date(+key.slice(0,4),+key.slice(5,7),0).getDate();
+  r.occ=Math.round((r.booked+r.reserved)/r.days*100);
+  return r;
+}
+function dMonthHTML(){
+  const keys=new Set(all.filter(b=>b.date).map(b=>b.date.slice(0,7)));keys.add(todayStr.slice(0,7));keys.add(dMonth);
+  const opts=[...keys].sort().reverse().map(k=>`<option value="${k}"${k===dMonth?" selected":""}>${monthLabel(k)}</option>`).join("");
+  const s=monthStats(dMonth),p=monthStats(shiftKey(dMonth,-1)),y=monthStats(shiftKey(dMonth,-12));
+  return `<div style="max-width:320px;margin-bottom:14px"><label for="dMonth">Select month</label><select id="dMonth">${opts}</select></div>
+  <div class="tiles">`+
+  tile("Received",inr(s.received),"in",delta(s.received,p.received,"last month")+delta(s.received,y.received,"last year"))+
+  tile("Total value",inr(s.total),"",delta(s.total,p.total,"last month"))+
+  tile("Pending",inr(s.pending),s.pending>0?"due":"in",s.pending>0?"to collect":"all clear")+
+  tile("Bookings",s.count,"",`<small>${s.booked} booked · ${s.reserved} reserved · ${s.cancelled} cancelled</small>`)+
+  tile("Occupancy",s.occ+"%","",`<small>${s.booked+s.reserved} of ${s.days} dates</small>`)+
+  tile("Avg booking",inr(s.count?s.total/s.count:0),"","<small>total value ÷ bookings</small>")+`</div>`;
+}
+function dPendingHTML(){
+  const rows=all.filter(b=>pendingOf(b)>0).sort((a,b)=>pendingOf(b)-pendingOf(a));
+  const od=rows.filter(b=>(b.date||"")<todayStr),sum=a=>a.reduce((s,b)=>s+pendingOf(b),0);
+  if(!rows.length)return `<div class="empty">No pending balances. All clear.</div>`;
+  return `<div class="tiles">`+tile("Total pending",inr(sum(rows)),"due",rows.length+" guests")+tile("Overdue (stay passed)",inr(sum(od)),"neg",od.length+" guests")+`</div>
+  <div class="list">`+rows.map(b=>{
+    const m=phone(b.mobile),over=(b.date||"")<todayStr;
+    return `<div class="item"><div class="grow"><strong>${esc(b.customer)}</strong><small>${fmtDate(b.date)}${m?` · <a href="tel:+91${m}">${m}</a>`:""}</small></div><div class="ra"><b class="due">${inr(pendingOf(b))}</b><span class="pill ${over?"p-bad":"p-due"}">${over?"Overdue":"Upcoming"}</span></div></div>`}).join("")+`</div>`;
+}
+function dTopHTML(){
+  const byCount=dTop==="count";
+  const list=customers("all").sort(byCount?(a,b)=>b.count-a.count||b.received-a.received:(a,b)=>b.received-a.received).slice(0,10);
+  const mx=Math.max(1,...list.map(c=>byCount?c.count:c.received));
+  return `<div style="max-width:320px;margin-bottom:8px"><label for="dTop">Rank by</label><select id="dTop"><option value="received"${byCount?"":" selected"}>Revenue received</option><option value="count"${byCount?" selected":""}>Number of bookings</option></select></div>
+  <div class="list">`+(list.length?list.map((c,i)=>`<div class="item"><span class="rk">${i+1}</span><div class="grow"><strong>${esc(c.name)}</strong><small>${c.count} booking${c.count===1?"":"s"}${c.mobile?" · "+c.mobile:""}</small><div class="mini"><i style="width:${(byCount?c.count:c.received)/mx*100}%"></i></div></div><div class="ra"><b class="in">${byCount?c.count:inr(c.received)}</b>${c.pending>0?`<span class="pill p-due">${inr(c.pending)} due</span>`:""}</div></div>`).join(""):`<div class="empty">No customers yet.</div>`)+`</div>`;
+}
+function dInsightsHTML(){
+  const act=all.filter(b=>b.status!=="Cancelled"&&b.date),canc=all.filter(b=>b.status==="Cancelled");
+  const od=act.filter(b=>b.date<todayStr&&pendingOf(b)>0),odTot=od.reduce((s,b)=>s+pendingOf(b),0);
+  const kept=canc.reduce((s,b)=>s+num(b.booking_amount),0),rate=all.length?Math.round(canc.length/all.length*100):0;
+  const leads=act.filter(b=>b.created_at).map(b=>(new Date(b.date+"T00:00:00")-new Date(b.created_at))/864e5).filter(x=>x>=0);
+  const lead=leads.length?Math.round(leads.reduce((a,b)=>a+b,0)/leads.length):null;
+  const W={n:0,v:0},D={n:0,v:0};
+  act.forEach(b=>{const g=[0,5,6].includes(new Date(b.date+"T00:00:00").getDay())?W:D;g.n++;g.v+=num(b.total_amount)});
+  const mm=Array(12).fill(0);all.forEach(b=>{if(b.date)mm[+b.date.slice(5,7)-1]+=receivedOf(b)});
+  const used=mm.map((v,i)=>[v,i]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]);
+  const cs=customers("all"),totRec=cs.reduce((s,c)=>s+c.received,0),repRec=cs.filter(c=>c.count>=2).reduce((s,c)=>s+c.received,0);
+  const modes={};act.forEach(b=>{if(b.payment_mode)modes[b.payment_mode]=(modes[b.payment_mode]||0)+1});
+  const topMode=Object.entries(modes).sort((a,b)=>b[1]-a[1])[0];
+  const rows=[
+    ["Overdue balances","Stay date passed, balance not paid",inr(odTot)+` (${od.length})`,od.length?"neg":"in"],
+    ["Cancellation rate",`Advance kept: ${inr(kept)}`,rate+"% ("+canc.length+")",""],
+    ["Average lead time","Days between booking entry and stay",lead==null?"-":lead+" days",""],
+    ["Weekend (Fri–Sun) bookings","Avg value "+inr(W.n?W.v/W.n:0),String(W.n),""],
+    ["Weekday bookings","Avg value "+inr(D.n?D.v/D.n:0),String(D.n),""],
+    ["Best month (all years)","Most revenue received",used.length?MN[used[0][1]]+" · "+inr(used[0][0]):"-","in"],
+    ["Weakest month (all years)","Least revenue among active months",used.length?MN[used[used.length-1][1]]+" · "+inr(used[used.length-1][0]):"-",""],
+    ["Repeat guests' share","Of all revenue received",(totRec?Math.round(repRec/totRec*100):0)+"%",""],
+    ["Most used payment mode","By number of bookings",topMode?topMode[0]+" ("+topMode[1]+")":"-",""]
+  ];
+  return `<div class="list" style="margin-top:0">`+rows.map(r=>`<div class="item"><div class="grow"><strong>${r[0]}</strong><small>${r[1]}</small></div><div class="ra"><b class="${r[3]}">${r[2]}</b></div></div>`).join("")+`</div>`;
+}
+function renderDash(){
+  document.querySelectorAll("#dTabs .chip").forEach(c=>c.classList.toggle("active",c.dataset.d===dTab));
+  const cur=monthStats(todayStr.slice(0,7)),pend=all.filter(b=>pendingOf(b)>0);
+  $("dKpis").innerHTML=tile("Received this month",inr(cur.received),"in",`<small>${monthLabel(todayStr.slice(0,7))}</small>`)+
+    tile("Total pending",inr(pend.reduce((s,b)=>s+pendingOf(b),0)),"due",`<small>${pend.length} guests</small>`)+
+    tile("Bookings this month",cur.count,"",`<small>${cur.cancelled} cancelled</small>`)+
+    tile("Occupancy this month",cur.occ+"%","",`<small>${cur.booked+cur.reserved} of ${cur.days} dates</small>`);
+  $("dPanel").innerHTML={month:dMonthHTML,pending:dPendingHTML,top:dTopHTML,insights:dInsightsHTML}[dTab]();
+}
+$("dTabs").addEventListener("click",e=>{const c=e.target.closest("[data-d]");if(!c)return;dTab=c.dataset.d;renderDash()});
+$("dPanel").addEventListener("change",e=>{if(e.target.id==="dMonth")dMonth=e.target.value;else if(e.target.id==="dTop")dTop=e.target.value;else return;renderDash()});
+
+["cSearch","cSeg","cYear","cSort"].forEach(id=>$(id).addEventListener(id==="cSearch"?"input":"change",renderCustomers));
+["rMode","rYear","rEmpty","rSort"].forEach(id=>$(id).addEventListener("change",renderRevenue));
+$("rType").addEventListener("change",()=>{fillRevYears(true);renderRevenue()});
+
+(async()=>{
+  try{
+    const{data,error}=await supabaseClient.from("bookings").select("*");
+    if(error)throw error;all=data||[];setSync("ok");fillYears();renderCustomers();renderRevenue();renderDash();
+    const h=location.hash.slice(1);if(h==="rev"||h==="cust")showTab(h);
+  }catch(e){console.error(e);setSync("error");toast("Could not load data: "+e.message)}
+})();
+</script>
+</body>
+</html>
