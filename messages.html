@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARTH INDA | Hotel & Resort — WhatsApp Message Center</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2300796B'/><stop offset='1' stop-color='%2333C1B4'/></linearGradient></defs><rect width='100' height='100' rx='26' fill='url(%23g)'/><path d='M27 62a23 23 0 0 1 46 0z' fill='white'/><path d='M22 72h56M32 82h36' stroke='white' stroke-width='6' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--mist:#eef6f4;--glass:rgba(255,255,255,.74);--glass-strong:rgba(255,255,255,.94);--line:rgba(0,105,92,.12);--line-strong:rgba(0,105,92,.24);--ink:#0c2529;--muted:#4f6b70;--lumen:#00a88a;--lumen-deep:#00695c;--lumen-2:#008573;--lumen-text:#00695c;--lumen-soft:rgba(0,168,138,.13);--sky:#7cc4ff;--sky-soft:rgba(124,196,255,.24);--sky-text:#0b5ca8;--amber:#f0a500;--amber-soft:rgba(240,165,0,.15);--amber-text:#8a5a00;--coral:#e8556a;--coral-soft:rgba(232,85,106,.12);--coral-text:#b3263d;--slate:#8fa3a8;--slate-soft:rgba(143,163,168,.2);--slate-text:#54696e;--wa:#25D366;--wa-deep:#128C7E;--r-lg:26px;--r-md:16px;--shadow:inset 0 1px 0 rgba(255,255,255,.9),0 22px 44px -26px rgba(0,80,70,.3),0 2px 8px -3px rgba(0,80,70,.07);--font:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;--display:'Unbounded','Manrope',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--mist);color-scheme:light}
+body{font-family:var(--font);font-size:15px;color:var(--ink);min-height:100vh;line-height:1.5;font-variant-numeric:tabular-nums}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(60% 46% at 88% -6%,rgba(124,196,255,.34),transparent 70%),radial-gradient(52% 42% at -4% 104%,rgba(0,168,138,.16),transparent 70%)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(0,105,92,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,105,92,.06) 1px,transparent 1px);background-size:48px 48px;opacity:.45}
+:focus-visible{outline:3px solid rgba(0,168,138,.6);outline-offset:2px}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+.rail{position:fixed;left:16px;top:16px;bottom:16px;width:220px;z-index:60;display:flex;flex-direction:column;gap:30px;padding:22px 14px 14px}
+.rail::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:28px;background:var(--glass);-webkit-backdrop-filter:blur(20px) saturate(1.3);backdrop-filter:blur(20px) saturate(1.3);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow),0 0 0 1px var(--line)}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 6px;text-decoration:none;color:var(--ink)}
+.mark{width:44px;height:44px;border-radius:15px;flex-shrink:0;display:grid;place-items:center;background:linear-gradient(140deg,#00796b 10%,#2bbfb0 70%,#7cc4ff);box-shadow:0 10px 20px -8px rgba(0,120,105,.6),inset 0 1px 0 rgba(255,255,255,.5)}
+.mark svg{width:26px;height:26px}
+.brand strong{display:block;font-family:var(--display);font-weight:500;font-size:13.5px;letter-spacing:-.02em;line-height:1.2}
+.brand span{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px}
+.nav{display:grid;gap:6px}
+.nav a{position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;font-weight:700;font-size:14px;color:var(--muted);transition:background .2s,color .2s,box-shadow .2s}
+.nav a svg{width:20px;height:20px;flex-shrink:0}
+.nav a:hover{color:var(--ink);background:rgba(0,168,138,.08)}
+.nav a.active{color:var(--lumen-text);background:#fff;box-shadow:0 12px 24px -14px rgba(0,105,92,.55),0 0 0 1px var(--line)}
+.nav a.active::before{content:"";position:absolute;left:-14px;top:50%;width:4px;height:24px;transform:translateY(-50%);border-radius:0 4px 4px 0;background:var(--lumen);box-shadow:0 0 14px var(--lumen)}
+.rail-foot{margin-top:auto;display:grid;gap:8px}
+.sync{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.7);font-size:12.5px;font-weight:700;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--slate);flex-shrink:0}
+.sync[data-state="ok"] i{background:var(--lumen);box-shadow:0 0 0 0 rgba(0,168,138,.55);animation:ping 1.6s infinite}
+.sync[data-state="error"] i{background:var(--coral)}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(0,168,138,.55)}100%{box-shadow:0 0 0 10px rgba(0,168,138,0)}}
+.admin-chip{justify-self:start;padding:5px 12px;border-radius:999px;background:var(--sky-soft);color:var(--sky-text);font-size:12px;font-weight:800;margin-left:4px}
+.main{margin-left:252px;padding:30px 30px 60px}
+.wrap{max-width:1240px;margin:0 auto}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.page-head h1{font-family:var(--display);font-weight:500;font-size:clamp(24px,3vw,34px);letter-spacing:-.025em;line-height:1.15}
+.page-head p{color:var(--muted);margin-top:8px;font-size:14px;font-weight:500;max-width:60ch}
+.panel{background:var(--glass);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border:1px solid rgba(255,255,255,.85);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow),0 0 0 1px var(--line)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 18px;border:0;border-radius:14px;cursor:pointer;font:700 14.5px/1.2 var(--font);margin-top:6px;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:none}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
+.btn-primary{color:#fff;background:linear-gradient(135deg,#00695c,#008573);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 14px 26px -14px rgba(0,105,92,.75)}
+.btn-primary:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 18px 30px -14px rgba(0,105,92,.85),0 0 0 4px var(--lumen-soft)}
+.btn-secondary{background:rgba(255,255,255,.85);color:var(--ink);box-shadow:0 0 0 1px var(--line-strong)}
+.btn-secondary:hover{background:#fff;box-shadow:0 0 0 1px var(--lumen),0 0 0 4px var(--lumen-soft)}
+.btn-danger{background:var(--coral-soft);color:var(--coral-text);box-shadow:0 0 0 1px rgba(232,85,106,.32)}
+.btn-wa{color:#fff;background:linear-gradient(135deg,#128C7E,#25D366);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 14px 26px -14px rgba(18,140,126,.75)}
+.btn-wa:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 18px 30px -14px rgba(18,140,126,.9),0 0 0 4px rgba(37,211,102,.2)}
+.btn-link{width:auto;margin-top:0;padding:12px 20px}
+.btn-sm{width:auto;margin:0;padding:9px 14px;font-size:13px;border-radius:12px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn-row .btn{margin-top:0;width:auto}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px}
+input,select,textarea{width:100%;background-color:rgba(255,255,255,.88);border:0;border-radius:14px;color:var(--ink);padding:13px 14px;font:500 14.5px var(--font);outline:none;box-shadow:inset 0 0 0 1px var(--line-strong);transition:box-shadow .15s,background-color .15s}
+input::placeholder,textarea::placeholder{color:var(--slate)}
+input:focus,select:focus,textarea:focus{box-shadow:inset 0 0 0 1.5px var(--lumen),0 0 0 4px var(--lumen-soft);background:#fff}
+textarea{min-height:140px;resize:vertical;line-height:1.55}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}
+.metric{background:var(--glass);border:1px solid rgba(255,255,255,.85);border-radius:20px;padding:18px 20px;box-shadow:var(--shadow),0 0 0 1px var(--line)}
+.metric span{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:8px}
+.metric strong{display:block;font-family:var(--display);font-weight:500;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em;line-height:1.1}
+.metric.today strong{color:var(--lumen-text)}
+.metric.soon strong{color:var(--amber-text)}
+.metric.sent strong{color:var(--sky-text)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.search-wrap{position:relative;flex:1;min-width:200px}
+.search-wrap svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted);pointer-events:none}
+.search-wrap input{padding-left:44px}
+.chips{display:inline-flex;flex-wrap:wrap;gap:4px;padding:5px;border-radius:19px;background:rgba(0,168,138,.07);box-shadow:inset 0 0 0 1px var(--line)}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:0;border-radius:14px;background:transparent;color:var(--muted);font:700 13.5px var(--font);cursor:pointer;transition:background .15s,color .15s,box-shadow .2s}
+.chip b{font-weight:800;font-size:12px;color:var(--ink);background:rgba(255,255,255,.8);padding:1px 9px;border-radius:999px}
+.chip:hover{color:var(--ink)}
+.chip.active{background:#fff;color:var(--ink);box-shadow:0 10px 20px -12px rgba(0,80,70,.55),0 0 0 1px var(--line-strong)}
+.layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,.9fr);gap:18px;align-items:start}
+.section-title{font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:-.02em;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.section-title .count{font-family:var(--font);font-size:12.5px;font-weight:700;color:var(--muted);background:rgba(0,168,138,.08);padding:4px 10px;border-radius:999px}
+.table-container{overflow:auto;max-height:min(58vh,620px);border-radius:18px;background:#fff;border:1px solid var(--line)}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:900px}
+th{position:sticky;top:0;z-index:2;background:#f7fbfa;text-align:left;padding:12px 14px;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--line)}
+td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:14px}
+tr:last-child td{border-bottom:0}
+tr:hover td{background:rgba(0,168,138,.04)}
+.cb{width:18px;height:18px;accent-color:var(--lumen);cursor:pointer}
+.pill{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.pill-booked{background:var(--coral-soft);color:var(--coral-text)}
+.pill-reserved{background:var(--amber-soft);color:var(--amber-text)}
+.pill-cancelled{background:var(--slate-soft);color:var(--slate-text)}
+.pill-sent{background:var(--lumen-soft);color:var(--lumen-text)}
+.pill-failed{background:var(--coral-soft);color:var(--coral-text)}
+.pill-pending{background:var(--amber-soft);color:var(--amber-text)}
+.action-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:0;border-radius:10px;background:rgba(37,211,102,.12);color:#0d7a4f;font:700 12.5px var(--font);cursor:pointer;transition:background .15s}
+.action-btn:hover{background:rgba(37,211,102,.22)}
+.balance-due{color:var(--amber-text);font-weight:800}
+.balance-clear{color:var(--lumen-text);font-weight:800}
+.selected-bar{display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;margin-bottom:14px;border-radius:16px;background:linear-gradient(135deg,rgba(0,105,92,.08),rgba(37,211,102,.1));box-shadow:inset 0 0 0 1px rgba(0,168,138,.25)}
+.selected-bar.show{display:flex}
+.selected-bar strong{font-family:var(--display);font-weight:500;font-size:15px}
+.composer textarea{min-height:180px}
+.char-count{text-align:right;font-size:12px;font-weight:600;color:var(--muted);margin-top:6px}
+.templates{display:grid;gap:8px;margin-bottom:14px}
+.tpl{text-align:left;padding:12px 14px;border:0;border-radius:14px;background:rgba(255,255,255,.85);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;transition:box-shadow .15s,background .15s}
+.tpl:hover,.tpl.active{background:#fff;box-shadow:inset 0 0 0 1.5px var(--lumen),0 0 0 4px var(--lumen-soft)}
+.tpl strong{display:block;font-size:13.5px;font-weight:800;margin-bottom:3px}
+.tpl span{display:block;font-size:12px;color:var(--muted);line-height:1.4}
+.ph-hint{font-size:12px;color:var(--muted);margin:8px 0 0;line-height:1.5}
+.ph-hint code{background:rgba(0,168,138,.1);padding:1px 6px;border-radius:6px;font-size:11.5px;font-weight:700;color:var(--lumen-text)}
+.manual-box{margin-top:18px;padding-top:18px;border-top:1px dashed var(--line-strong)}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.history-list{display:grid;gap:10px;max-height:320px;overflow:auto}
+.hist-item{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.88);box-shadow:inset 0 0 0 1px var(--line)}
+.hist-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.hist-top strong{font-size:14px}
+.hist-meta{font-size:12px;color:var(--muted);font-weight:600}
+.hist-msg{font-size:13px;color:var(--ink);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.empty-state{text-align:center;padding:36px 20px;color:var(--muted);font-weight:600}
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(12,37,41,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.modal.open{display:flex}
+.modal-content{width:min(480px,100%);background:var(--glass-strong);border-radius:24px;padding:28px;box-shadow:0 30px 60px -20px rgba(0,40,35,.45),0 0 0 1px var(--line);max-height:90vh;overflow:auto}
+.modal-content h3{font-family:var(--display);font-weight:500;font-size:20px;margin-bottom:10px}
+.modal-content .muted{color:var(--muted);font-size:14px;margin-bottom:18px;line-height:1.5}
+.modal-preview{background:rgba(0,168,138,.06);border-radius:14px;padding:14px;font-size:13.5px;line-height:1.55;max-height:160px;overflow:auto;white-space:pre-wrap;margin-bottom:18px;box-shadow:inset 0 0 0 1px var(--line)}
+#toasts{position:fixed;right:20px;bottom:24px;z-index:120;display:grid;gap:10px;max-width:min(360px,calc(100vw - 32px))}
+.toast{padding:14px 18px;border-radius:14px;background:#fff;box-shadow:0 16px 32px -12px rgba(0,60,55,.35),0 0 0 1px var(--line);font-weight:700;font-size:14px;animation:toastIn .25s ease}
+.toast.ok{border-left:4px solid var(--lumen)}
+.toast.error{border-left:4px solid var(--coral)}
+.toast.out{opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.cards{display:none}
+.card{background:#fff;border-radius:18px;padding:16px;box-shadow:inset 0 0 0 1px var(--line);margin-bottom:10px}
+.card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.card-head strong{flex:1;font-size:15px}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:13px}
+.card-grid span{color:var(--muted);font-weight:600;display:block;font-size:11.5px}
+.card-actions{margin-top:12px;display:flex;gap:8px}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){
+.rail{position:sticky;top:0;left:0;right:0;bottom:auto;width:auto;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;z-index:80}
+.rail::before{border-radius:0;border-width:0 0 1px;box-shadow:0 1px 0 var(--line)}
+.brand span{display:none}.nav{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:4px;padding:6px;border-radius:26px;background:var(--glass-strong);-webkit-backdrop-filter:blur(20px) saturate(1.3);backdrop-filter:blur(20px) saturate(1.3);box-shadow:0 24px 44px -16px rgba(0,60,55,.5),0 0 0 1px var(--line);z-index:70}
+.nav a{flex-direction:column;gap:3px;padding:9px 14px 10px;font-size:11.5px;border-radius:20px}
+.nav a span{font-size:11px}
+.nav a.active::before{left:50%;top:auto;bottom:-1px;width:22px;height:3px;transform:translateX(-50%);border-radius:3px 3px 0 0}
+.rail-foot{margin:0;display:flex}.admin-chip{display:none}.sync{padding:7px 12px}
+.main{margin-left:0;padding:20px 14px 116px}#toasts{bottom:100px}
+.table-container{display:none}.cards{display:block}
+}
+@media(max-width:520px){.metrics{grid-template-columns:1fr}.panel{padding:18px;border-radius:22px}.row-2{grid-template-columns:1fr}.modal-content{padding:20px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<aside class="rail">
+  <a class="brand" href="index.html" aria-label="PARTH INDA Hotel and Resort, home">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 16a8 8 0 0 1 16 0" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M3 19h18M7 22h10" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </div>
+    <div>
+      <strong>PARTH INDA</strong>
+      <span>Hotel &amp; Resort</span>
+    </div>
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
+      <span>Calendar</span>
+    </a>
+    <a href="bookings.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <span>Bookings</span>
+    </a>
+    <a href="analysis.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V5M10 19V9M16 19v-6M22 19V3"/></svg>
+      <span>Analysis</span>
+    </a>
+    <a href="messages.html" class="active" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.4L3 21l2.2-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>
+      <span>Messages</span>
+    </a>
+  </nav>
+  <div class="rail-foot">
+    <div class="sync" id="sync" data-state="idle" role="status"><i></i><span id="syncText">Connecting</span></div>
+    <span class="admin-chip">Admin</span>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <h1>WhatsApp Message Center</h1>
+        <p>Select upcoming guests, write a message, confirm, then open WhatsApp. Nothing is sent automatically.</p>
+      </div>
+    </div>
+
+    <div class="metrics" id="metrics">
+      <div class="metric"><span>Upcoming (7 days)</span><strong id="mUpcoming">0</strong></div>
+      <div class="metric today"><span>Bookings today</span><strong id="mToday">0</strong></div>
+      <div class="metric soon"><span>Next 3 days</span><strong id="m3days">0</strong></div>
+      <div class="metric sent"><span>Messages logged today</span><strong id="mSent">0</strong></div>
+    </div>
+
+    <div class="layout">
+      <!-- LEFT: customer list -->
+      <section class="panel">
+        <div class="section-title">
+          Upcoming bookings
+          <span class="count" id="listCount">0</span>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+            <input type="search" id="search" placeholder="Search name or mobile number…" autocomplete="off" aria-label="Search customers">
+          </div>
+          <div class="chips" id="dateChips" role="group" aria-label="Date filter"></div>
+        </div>
+
+        <div class="selected-bar" id="selectedBar">
+          <strong id="selectedText">0 selected</strong>
+          <div class="btn-row">
+            <button type="button" class="btn btn-secondary btn-sm" id="clearSel">Clear</button>
+            <button type="button" class="btn btn-wa btn-sm" id="sendSelected">Send WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px"><input type="checkbox" class="cb" id="selectAll" title="Select all visible"></th>
+                <th>Guest</th>
+                <th>WhatsApp</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th class="right">Balance</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="bookingTable"></tbody>
+          </table>
+        </div>
+        <div class="cards" id="bookingCards"></div>
+      </section>
+
+      <!-- RIGHT: composer -->
+      <div style="display:grid;gap:18px">
+        <section class="panel">
+          <div class="section-title">Message</div>
+
+          <div class="templates" id="templates"></div>
+
+          <div class="composer">
+            <label for="messageBox">Write or paste your WhatsApp message</label>
+            <textarea id="messageBox" placeholder="Hello {{name}},&#10;Your Parth Farm booking is on {{booking_date}}…&#10;&#10;Use placeholders: {{name}} {{booking_date}} {{balance}} {{status}}"></textarea>
+            <div class="char-count"><span id="charCount">0</span> characters</div>
+            <p class="ph-hint">Placeholders: <code>{{name}}</code> <code>{{booking_date}}</code> <code>{{balance}}</code> <code>{{status}}</code> <code>{{mobile}}</code> — replaced per guest when you send.</p>
+          </div>
+
+          <div class="btn-row" style="margin-top:14px">
+            <button type="button" class="btn btn-wa" id="sendComposer" style="flex:1">Send WhatsApp</button>
+          </div>
+          <p class="ph-hint" style="margin-top:10px">Flow: select guest(s) → write message → click Send → confirm → WhatsApp opens with the message ready. You still tap Send inside WhatsApp.</p>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">Send to any number</div>
+          <div class="row-2">
+            <div>
+              <label for="manualName">Name</label>
+              <input id="manualName" type="text" placeholder="Guest name" autocomplete="name">
+            </div>
+            <div>
+              <label for="manualPhone">WhatsApp number</label>
+              <input id="manualPhone" type="tel" placeholder="10-digit mobile" inputmode="numeric" autocomplete="tel">
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <label for="manualMsg">Message</label>
+            <textarea id="manualMsg" placeholder="Type message for this number…" style="min-height:90px"></textarea>
+          </div>
+          <button type="button" class="btn btn-wa" id="sendManual" style="margin-top:12px">Send WhatsApp</button>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            Recent messages
+            <span class="count" id="histCount">0</span>
+          </div>
+          <div class="history-list" id="historyList">
+            <div class="empty-state">No messages logged yet.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Confirm modal -->
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal-content">
+    <h3 id="confirmTitle">Confirm send</h3>
+    <p class="muted" id="confirmText">Send this message to selected guests?</p>
+    <div class="modal-preview" id="confirmPreview"></div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" id="confirmCancel" style="flex:1">Cancel</button>
+      <button type="button" class="btn btn-wa" id="confirmOk" style="flex:1">Open WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://bolwtbueazlfzeeyggir.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbHd0YnVlYXpsZnplZXlnZ2lyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3MTgxNTAsImV4cCI6MjEwNTI5NDE1MH0.IYGWTYCCIr_S5Gv66AxuRn5RLk_XzLyCTm-FwUM8bXs";
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const $ = (id) => document.getElementById(id);
+const escapeHTML = (v) => String(v == null ? "" : v)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+
+function cleanPhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  return digits.length > 10 ? digits.slice(-10) : digits;
+}
+function fmtINR(n) {
+  return "₹" + Number(n || 0).toLocaleString("en-IN");
+}
+function fmtDate(str) {
+  if (!str) return "—";
+  const d = new Date(str + "T00:00:00");
+  if (isNaN(d)) return str;
+  return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+}
+function todayISO() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function addDaysISO(n) {
+  const d = new Date();
+  d.setDate(d.getDate() + n);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function pendingOf(b) {
+  return Math.max(Number(b.total_amount || 0) - Number(b.booking_amount || 0) - Number(b.balance_amount || 0), 0);
+}
+
+const TEMPLATES = [
+  {
+    id: "confirm",
+    title: "Booking confirmation",
+    body: "Hello {{name}},\n\nYour booking at PARTH INDA Hotel & Resort is confirmed for {{booking_date}}.\n\nWe look forward to welcoming you! 🌿\n\nFor any help, please call or WhatsApp us."
+  },
+  {
+    id: "3day",
+    title: "3-day reminder",
+    body: "Hello {{name}},\n\nFriendly reminder: your stay at PARTH INDA is in 3 days ({{booking_date}}).\n\nPlease reach out if you have any special requests. See you soon! 🌿"
+  },
+  {
+    id: "tomorrow",
+    title: "Tomorrow reminder",
+    body: "Hello {{name}},\n\nYour booking at PARTH INDA is tomorrow ({{booking_date}}).\n\nWe are ready to welcome you! Safe travels. 🌿"
+  },
+  {
+    id: "today",
+    title: "Booking day reminder",
+    body: "Hello {{name}},\n\nToday is your booking day at PARTH INDA ({{booking_date}}).\n\nWe are excited to host you. Looking forward to seeing you! 🌿"
+  },
+  {
+    id: "payment",
+    title: "Payment reminder",
+    body: "Hello {{name}},\n\nRegarding your booking on {{booking_date}} at PARTH INDA.\n\nBalance pending: {{balance}}\n\nPlease complete the remaining payment at your earliest convenience. Thank you!"
+  },
+  {
+    id: "cancel",
+    title: "Cancellation note",
+    body: "Hello {{name}},\n\nYour booking at PARTH INDA for {{booking_date}} has been cancelled as per discussion.\n\nIf you have any questions, feel free to contact us."
+  },
+  {
+    id: "custom",
+    title: "Custom message",
+    body: ""
+  }
+];
+
+let allBookings = [];
+let messageHistory = [];
+let dateFilter = "7"; // today | tomorrow | 3 | 7 | all
+let searchQuery = "";
+const selected = new Set(); // booking ids
+let activeTemplate = null;
+let pendingSend = null; // { recipients: [{name,phone,booking}], message }
+
+function setSync(state) {
+  const el = $("sync");
+  if (!el) return;
+  el.dataset.state = state;
+  $("syncText").textContent =
+    state === "ok" ? "Synced at " + new Date().toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" })
+    : state === "error" ? "Can't reach database"
+    : "Connecting";
+}
+
+function toast(message, type = "ok") {
+  let box = $("toasts");
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "toasts";
+    box.setAttribute("aria-live", "polite");
+    document.body.appendChild(box);
+  }
+  const t = document.createElement("div");
+  t.className = "toast " + type;
+  t.textContent = message;
+  box.appendChild(t);
+  setTimeout(() => { t.classList.add("out"); setTimeout(() => t.remove(), 260); }, 3200);
+}
+
+async function fetchBookings() {
+  const { data, error } = await supabaseClient.from("bookings").select("*");
+  if (error) throw error;
+  return data || [];
+}
+
+async function fetchHistory() {
+  try {
+    const { data, error } = await supabaseClient
+      .from("whatsapp_messages")
+      .select("*")
+      .order("sent_at", { ascending: false })
+      .limit(40);
+    if (error) {
+      // Table may not exist yet — fail silently
+      console.warn("whatsapp_messages:", error.message);
+      return [];
+    }
+    return data || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+async function logMessage(row) {
+  try {
+    const { error } = await supabaseClient.from("whatsapp_messages").insert([row]);
+    if (error) console.warn("Could not log message:", error.message);
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+function fillPlaceholders(template, b) {
+  const bal = pendingOf(b);
+  return String(template || "")
+    .replace(/\{\{name\}\}/gi, b.customer || "")
+    .replace(/\{\{booking_date\}\}/gi, fmtDate(b.date))
+    .replace(/\{\{balance\}\}/gi, fmtINR(bal))
+    .replace(/\{\{status\}\}/gi, b.status || "")
+    .replace(/\{\{mobile\}\}/gi, cleanPhone(b.mobile) || "")
+    .replace(/\{\{guests\}\}/gi, "—"); // guests column not in current schema
+}
+
+function inDateRange(dateStr) {
+  if (!dateStr) return false;
+  const t = todayISO();
+  if (dateFilter === "all") return dateStr >= t;
+  if (dateFilter === "today") return dateStr === t;
+  if (dateFilter === "tomorrow") return dateStr === addDaysISO(1);
+  if (dateFilter === "3") return dateStr >= t && dateStr <= addDaysISO(3);
+  if (dateFilter === "7") return dateStr >= t && dateStr <= addDaysISO(7);
+  return true;
+}
+
+function visibleRows() {
+  const q = searchQuery.trim().toLowerCase();
+  const digits = q.replace(/\D/g, "");
+  return allBookings.filter((b) => {
+    if (b.status === "Cancelled") return false;
+    if (!inDateRange(b.date)) return false;
+    if (!q) return true;
+    return (
+      (b.customer || "").toLowerCase().includes(q) ||
+      (digits && cleanPhone(b.mobile).includes(digits))
+    );
+  }).sort((a, b) => String(a.date).localeCompare(String(b.date)));
+}
+
+function updateMetrics() {
+  const t = todayISO();
+  const active = allBookings.filter((b) => b.status !== "Cancelled");
+  const upcoming = active.filter((b) => b.date >= t && b.date <= addDaysISO(7));
+  const today = active.filter((b) => b.date === t);
+  const d3 = active.filter((b) => b.date >= t && b.date <= addDaysISO(3));
+  $("mUpcoming").textContent = upcoming.length;
+  $("mToday").textContent = today.length;
+  $("m3days").textContent = d3.length;
+
+  const todayStart = t + "T00:00:00";
+  const sentToday = messageHistory.filter((m) => (m.sent_at || m.created_at || "").slice(0, 10) === t).length;
+  $("mSent").textContent = sentToday;
+}
+
+function renderChips() {
+  const t = todayISO();
+  const active = allBookings.filter((b) => b.status !== "Cancelled");
+  const counts = {
+    today: active.filter((b) => b.date === t).length,
+    tomorrow: active.filter((b) => b.date === addDaysISO(1)).length,
+    "3": active.filter((b) => b.date >= t && b.date <= addDaysISO(3)).length,
+    "7": active.filter((b) => b.date >= t && b.date <= addDaysISO(7)).length,
+    all: active.filter((b) => b.date >= t).length
+  };
+  const items = [
+    ["today", "Today"],
+    ["tomorrow", "Tomorrow"],
+    ["3", "3 Days"],
+    ["7", "7 Days"],
+    ["all", "All"]
+  ];
+  $("dateChips").innerHTML = items.map(([k, label]) =>
+    `<button type="button" class="chip ${dateFilter === k ? "active" : ""}" data-f="${k}">${label}<b>${counts[k]}</b></button>`
+  ).join("");
+}
+
+function renderTable() {
+  const rows = visibleRows();
+  $("listCount").textContent = rows.length + " guests";
+  const tbody = $("bookingTable");
+  const cards = $("bookingCards");
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-state">${searchQuery ? "No matching guests." : "No upcoming active bookings in this range."}</td></tr>`;
+    cards.innerHTML = `<div class="empty-state">${searchQuery ? "No matching guests." : "No upcoming active bookings in this range."}</div>`;
+    $("selectAll").checked = false;
+    updateSelectedBar();
+    return;
+  }
+
+  tbody.innerHTML = rows.map((b) => {
+    const bal = pendingOf(b);
+    const phone = cleanPhone(b.mobile);
+    const checked = selected.has(String(b.id)) ? "checked" : "";
+    return `<tr>
+      <td><input type="checkbox" class="cb row-cb" data-id="${escapeHTML(b.id)}" ${checked}></td>
+      <td><strong>${escapeHTML(b.customer)}</strong></td>
+      <td>${escapeHTML(phone || "—")}</td>
+      <td>${fmtDate(b.date)}</td>
+      <td><span class="pill pill-${escapeHTML((b.status || "").toLowerCase())}">${escapeHTML(b.status)}</span></td>
+      <td class="right"><span class="${bal > 0 ? "balance-due" : "balance-clear"}">${fmtINR(bal)}</span></td>
+      <td><button type="button" class="action-btn send-one" data-id="${escapeHTML(b.id)}">Send</button></td>
+    </tr>`;
+  }).join("");
+
+  cards.innerHTML = rows.map((b) => {
+    const bal = pendingOf(b);
+    const phone = cleanPhone(b.mobile);
+    const checked = selected.has(String(b.id)) ? "checked" : "";
+    return `<div class="card">
+      <div class="card-head">
+        <input type="checkbox" class="cb row-cb" data-id="${escapeHTML(b.id)}" ${checked}>
+        <strong>${escapeHTML(b.customer)}</strong>
+        <span class="pill pill-${escapeHTML((b.status || "").toLowerCase())}">${escapeHTML(b.status)}</span>
+      </div>
+      <div class="card-grid">
+        <div><span>WhatsApp</span>${escapeHTML(phone || "—")}</div>
+        <div><span>Date</span>${fmtDate(b.date)}</div>
+        <div><span>Balance</span><span class="${bal > 0 ? "balance-due" : "balance-clear"}">${fmtINR(bal)}</span></div>
+      </div>
+      <div class="card-actions">
+        <button type="button" class="action-btn send-one" data-id="${escapeHTML(b.id)}">Send WhatsApp</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  const allChecked = rows.every((b) => selected.has(String(b.id)));
+  $("selectAll").checked = allChecked && rows.length > 0;
+  updateSelectedBar();
+}
+
+function updateSelectedBar() {
+  const n = selected.size;
+  const bar = $("selectedBar");
+  if (n > 0) {
+    bar.classList.add("show");
+    $("selectedText").textContent = n + " customer" + (n === 1 ? "" : "s") + " selected";
+  } else {
+    bar.classList.remove("show");
+  }
+}
+
+function renderTemplates() {
+  $("templates").innerHTML = TEMPLATES.map((t) =>
+    `<button type="button" class="tpl ${activeTemplate === t.id ? "active" : ""}" data-tpl="${t.id}">
+      <strong>${escapeHTML(t.title)}</strong>
+      <span>${t.body ? escapeHTML(t.body.slice(0, 70)) + (t.body.length > 70 ? "…" : "") : "Start from a blank message"}</span>
+    </button>`
+  ).join("");
+}
+
+function renderHistory() {
+  const list = $("historyList");
+  $("histCount").textContent = messageHistory.length;
+  if (!messageHistory.length) {
+    list.innerHTML = `<div class="empty-state">No messages logged yet.<br><small style="font-weight:500">Create a <code>whatsapp_messages</code> table in Supabase to store history (optional).</small></div>`;
+    return;
+  }
+  list.innerHTML = messageHistory.map((m) => {
+    const st = (m.status || "sent").toLowerCase();
+    const when = m.sent_at || m.created_at || "";
+    let timeLabel = when;
+    try {
+      timeLabel = new Date(when).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "numeric", minute: "2-digit" });
+    } catch (_) {}
+    return `<div class="hist-item">
+      <div class="hist-top">
+        <div>
+          <strong>${escapeHTML(m.customer_name || m.phone_number || "—")}</strong>
+          <div class="hist-meta">${escapeHTML(m.phone_number || "")} · ${escapeHTML(m.message_type || "message")}</div>
+        </div>
+        <span class="pill pill-${st === "failed" ? "failed" : st === "pending" ? "pending" : "sent"}">${escapeHTML(m.status || "Sent")}</span>
+      </div>
+      <div class="hist-msg">${escapeHTML(m.message || "")}</div>
+      <div class="hist-meta" style="margin-top:6px">${escapeHTML(timeLabel)}</div>
+    </div>`;
+  }).join("");
+}
+
+function openWhatsApp(phone, text) {
+  const p = cleanPhone(phone);
+  if (!p || p.length !== 10) {
+    toast("Invalid mobile number.", "error");
+    return false;
+  }
+  const url = "https://wa.me/91" + p + "?text=" + encodeURIComponent(text);
+  window.open(url, "_blank", "noopener");
+  return true;
+}
+
+function getSelectedBookings() {
+  return allBookings.filter((b) => selected.has(String(b.id)));
+}
+
+function startSend(recipients, baseMessage, messageType) {
+  if (!recipients.length) {
+    toast("Select at least one customer.", "error");
+    return;
+  }
+  if (!String(baseMessage || "").trim()) {
+    toast("Write a message first.", "error");
+    return;
+  }
+  pendingSend = { recipients, baseMessage, messageType: messageType || "custom" };
+  $("confirmText").textContent =
+    recipients.length === 1
+      ? `Open WhatsApp for ${recipients[0].customer || recipients[0].name || "this guest"}?`
+      : `Open WhatsApp for ${recipients.length} selected customers? (one tab per guest)`;
+  // Preview with first recipient
+  const sample = fillPlaceholders(baseMessage, recipients[0]);
+  $("confirmPreview").textContent = sample;
+  $("confirmModal").classList.add("open");
+}
+
+async function executeSend() {
+  if (!pendingSend) return;
+  const { recipients, baseMessage, messageType } = pendingSend;
+  $("confirmModal").classList.remove("open");
+
+  let ok = 0;
+  for (const b of recipients) {
+    const msg = fillPlaceholders(baseMessage, b);
+    const phone = cleanPhone(b.mobile || b.phone);
+    const opened = openWhatsApp(phone, msg);
+    if (opened) {
+      ok++;
+      await logMessage({
+        booking_id: b.id || null,
+        customer_name: b.customer || b.name || null,
+        phone_number: phone,
+        message: msg,
+        message_type: messageType,
+        status: "sent",
+        sent_at: new Date().toISOString()
+      });
+    }
+    // Small delay so browsers don't block multiple windows
+    if (recipients.length > 1) await new Promise((r) => setTimeout(r, 450));
+  }
+
+  toast(ok ? `Opened WhatsApp for ${ok} guest${ok > 1 ? "s" : ""}.` : "Could not open WhatsApp.", ok ? "ok" : "error");
+  pendingSend = null;
+  selected.clear();
+  updateSelectedBar();
+  renderTable();
+  messageHistory = await fetchHistory();
+  renderHistory();
+  updateMetrics();
+}
+
+async function loadAll() {
+  setSync("idle");
+  try {
+    allBookings = await fetchBookings();
+    messageHistory = await fetchHistory();
+    setSync("ok");
+  } catch (err) {
+    console.error(err);
+    setSync("error");
+    toast("Could not load data: " + err.message, "error");
+  }
+  updateMetrics();
+  renderChips();
+  renderTable();
+  renderTemplates();
+  renderHistory();
+  $("charCount").textContent = ($("messageBox").value || "").length;
+}
+
+/* ——— Events ——— */
+$("dateChips").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-f]");
+  if (!btn) return;
+  dateFilter = btn.dataset.f;
+  renderChips();
+  renderTable();
+});
+
+$("search").addEventListener("input", () => {
+  searchQuery = $("search").value;
+  renderTable();
+});
+
+$("selectAll").addEventListener("change", () => {
+  const rows = visibleRows();
+  if ($("selectAll").checked) rows.forEach((b) => selected.add(String(b.id)));
+  else rows.forEach((b) => selected.delete(String(b.id)));
+  renderTable();
+});
+
+document.addEventListener("change", (e) => {
+  if (e.target.classList.contains("row-cb")) {
+    const id = e.target.dataset.id;
+    if (e.target.checked) selected.add(id);
+    else selected.delete(id);
+    updateSelectedBar();
+    // sync select-all
+    const rows = visibleRows();
+    $("selectAll").checked = rows.length > 0 && rows.every((b) => selected.has(String(b.id)));
+  }
+});
+
+document.addEventListener("click", (e) => {
+  const one = e.target.closest(".send-one");
+  if (one) {
+    const b = allBookings.find((x) => String(x.id) === String(one.dataset.id));
+    if (!b) return;
+    selected.clear();
+    selected.add(String(b.id));
+    updateSelectedBar();
+    renderTable();
+    // Prefer current message; if empty, use a sensible default
+    let msg = $("messageBox").value.trim();
+    if (!msg) {
+      msg = TEMPLATES.find((t) => t.id === "tomorrow").body;
+      $("messageBox").value = msg;
+      $("charCount").textContent = msg.length;
+    }
+    startSend([b], msg, activeTemplate || "reminder");
+    return;
+  }
+});
+
+$("clearSel").addEventListener("click", () => {
+  selected.clear();
+  renderTable();
+});
+
+$("sendSelected").addEventListener("click", () => {
+  const list = getSelectedBookings();
+  startSend(list, $("messageBox").value, activeTemplate || "custom");
+});
+
+$("sendComposer").addEventListener("click", () => {
+  const list = getSelectedBookings();
+  if (!list.length) {
+    toast("Select one or more customers first.", "error");
+    return;
+  }
+  startSend(list, $("messageBox").value, activeTemplate || "custom");
+});
+
+$("templates").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-tpl]");
+  if (!btn) return;
+  const tpl = TEMPLATES.find((t) => t.id === btn.dataset.tpl);
+  if (!tpl) return;
+  activeTemplate = tpl.id;
+  if (tpl.body) $("messageBox").value = tpl.body;
+  $("charCount").textContent = ($("messageBox").value || "").length;
+  renderTemplates();
+});
+
+$("messageBox").addEventListener("input", () => {
+  $("charCount").textContent = ($("messageBox").value || "").length;
+});
+
+$("sendManual").addEventListener("click", () => {
+  const name = $("manualName").value.trim() || "Guest";
+  const phone = cleanPhone($("manualPhone").value);
+  const msg = $("manualMsg").value.trim();
+  if (phone.length !== 10) { toast("Enter a valid 10-digit mobile number.", "error"); return; }
+  if (!msg) { toast("Write a message.", "error"); return; }
+  startSend([{ customer: name, mobile: phone, name, phone, date: null, status: "", total_amount: 0, booking_amount: 0, balance_amount: 0 }], msg, "manual");
+});
+
+$("confirmCancel").addEventListener("click", () => {
+  $("confirmModal").classList.remove("open");
+  pendingSend = null;
+});
+$("confirmOk").addEventListener("click", () => executeSend());
+$("confirmModal").addEventListener("click", (e) => {
+  if (e.target === $("confirmModal")) {
+    $("confirmModal").classList.remove("open");
+    pendingSend = null;
+  }
+});
+
+loadAll();
+</script>
+</body>
+</html>
