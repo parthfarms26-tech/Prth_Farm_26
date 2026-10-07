@@ -42,7 +42,7 @@ a{color:inherit;text-decoration:none}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(0,168,138,.55)}100%{box-shadow:0 0 0 10px rgba(0,168,138,0)}}
 .admin-chip{justify-self:start;padding:5px 12px;border-radius:999px;background:var(--sky-soft);color:var(--sky-text);font-size:12px;font-weight:800;margin-left:4px}
 .main{margin-left:252px;padding:30px 30px 60px}
-.wrap{max-width:1240px;margin:0 auto}
+.wrap{max-width:1560px;margin:0 auto}
 .page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
 .page-head h1{font-family:var(--display);font-weight:500;font-size:clamp(24px,3vw,34px);letter-spacing:-.025em;line-height:1.15}
 .page-head p{color:var(--muted);margin-top:6px;font-size:14px;font-weight:500;max-width:60ch;line-height:1.45}
@@ -107,17 +107,17 @@ textarea{resize:vertical;min-height:78px}
 .main{margin-left:0;padding:20px 14px 116px}#toasts{bottom:100px}}
 @media(max-width:520px){.panel{padding:18px;border-radius:22px}.modal-content{padding:20px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-.ledger{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:16px;margin-bottom:20px;align-items:stretch}
-.group{padding:20px 22px 22px;display:flex;flex-direction:column}
+.ledger{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr) minmax(0,1.6fr);gap:16px;margin-bottom:20px;align-items:stretch}
+.group{padding:20px 22px 22px;display:flex;flex-direction:column;min-width:0}
 .total-revenue-box{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:100%}
 .total-revenue-box h2{text-align:center;margin-bottom:10px}
-.total-revenue-value{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.2vw,32px);letter-spacing:-.02em;line-height:1.15;color:var(--lumen-text);white-space:nowrap}
+.total-revenue-value{font-family:var(--display);font-weight:500;font-size:clamp(20px,2vw,30px);letter-spacing:-.02em;line-height:1.15;color:var(--lumen-text);white-space:nowrap}
 .group h2{font-size:12px;font-weight:800;color:var(--muted);margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase}
 .metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));flex:1;align-items:end}
-.metric{padding:0 14px;border-left:1px solid var(--line);min-width:0;display:flex;flex-direction:column;justify-content:flex-end}
+.metric{padding:0 10px;border-left:1px solid var(--line);min-width:0;display:flex;flex-direction:column;justify-content:flex-end}
 .metric:first-child{padding-left:0;border-left:0}
-.metric span{display:block;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.metric strong{display:block;font-family:var(--display);font-weight:500;font-size:clamp(15px,1.5vw,22px);letter-spacing:-.02em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metric span{display:block;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:6px;line-height:1.3;white-space:normal}
+.metric strong{display:block;font-family:var(--display);font-weight:500;font-size:clamp(13px,1.15vw,18px);letter-spacing:-.02em;line-height:1.15;white-space:nowrap}
 .metric.in strong{color:var(--lumen-text)}
 .metric.due strong{color:var(--amber-text)}
 .grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(340px,.95fr);gap:20px;align-items:start}
@@ -200,6 +200,9 @@ legend::after{content:"";flex:1;height:1px;background:var(--line);min-width:12px
 .form-actions .btn{margin-top:8px}
 .block-btn{margin-top:12px}
 @media(max-width:1180px){.grid{grid-template-columns:1fr}}
+@media(min-width:701px) and (max-width:1320px){
+.ledger{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.ledger .group:last-child{grid-column:1 / -1}}
 @media(max-width:700px){
 .ledger{grid-template-columns:1fr;gap:12px}
 .group{padding:16px 18px 16px}
@@ -207,7 +210,7 @@ legend::after{content:"";flex:1;height:1px;background:var(--line);min-width:12px
 .metrics{grid-template-columns:1fr;align-items:stretch}
 .metric{display:flex;flex-direction:row;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;border-left:0;border-top:1px dashed var(--line-strong)}
 .metric:first-child{border-top:0;padding-top:0}
-.metric span{margin:0;font-size:13px;white-space:normal;overflow:visible;text-overflow:unset}
+.metric span{margin:0;font-size:13px;white-space:normal}
 .metric strong{font-size:17px;text-align:right}}
 @media(max-width:600px){
 .cal-head{gap:16px;align-items:start}
@@ -936,13 +939,13 @@ function updateStats() {
     0
   );
 
-  // Total revenue = active advance + balance pending + cancelled-booking advance.
-  // Since Advance received already includes cancelled advances, this equals advance + pending.
-  const totalRevenue = activeAdvance + pending + cancelledAdvance;
   const totalReceived = monthBookings.reduce(
     (s, b) => s + Number(b.booking_amount || 0) + Number(b.balance_amount || 0),
     0
   );
+
+  // Total revenue = Total received + Balance pending
+  const totalRevenue = totalReceived + pending;
 
   $("totalBookings").textContent = active.length;
   $("bookedDates").textContent = active.filter((b) => b.status === "Booked").length;
